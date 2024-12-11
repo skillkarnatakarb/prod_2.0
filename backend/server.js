@@ -8,6 +8,9 @@ const roleRoutes = require('./routes/roleRoutes'); // Role-based routes
 const Event = require("./models/Event");
 
 
+const projectRoutes = require('./routes/projectRoutes');
+
+
 const eventRoutes = require("./routes/eventRoutes");
 
 
@@ -31,6 +34,7 @@ console.log('Initializing server and setting up routes...');
 // Routes
 app.use('/api/auth', authRoutes); // Authentication endpoints
 app.use('/api/roles', roleRoutes); // Role-based endpoints
+app.use("/api/projects", projectRoutes);
 
 // Debugging route initialization
 console.log('Routes initialized: /api/auth and /api/roles');
