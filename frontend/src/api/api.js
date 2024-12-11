@@ -1,8 +1,9 @@
 import axios from 'axios';
+import { API_BASE_URL } from '../config'; // Import the base URL from config.js
 
-// Create an axios instance with a dynamic base URL
+// Create an Axios instance with the base URL
 const API = axios.create({
-  baseURL: process.env.REACT_APP_API_URL || 'http://localhost:5000/api', // Use environment variable or fallback to localhost
+  baseURL: API_BASE_URL, // Use the hosted backend URL
 });
 
 // Add a request interceptor to include the token in headers if available
@@ -14,34 +15,33 @@ API.interceptors.request.use((config) => {
   return config;
 });
 
-// API calls
+// Function to fetch projects
 export const fetchProjects = async () => {
   try {
-    const response = await API.get('/projects');
+    const response = await API.get('/projects'); // Adjust the endpoint as necessary
     return response.data;
   } catch (error) {
-    console.error('Error fetching projects:', error);
-    throw error;
+    throw new Error(error.response?.data?.message || 'Failed to fetch projects');
   }
 };
 
-export const uploadProject = async (data) => {
+// Function to upload a project
+export const uploadProject = async (projectData) => {
   try {
-    const response = await API.post('/projects', data);
+    const response = await API.post('/projects', projectData); // Adjust the endpoint as necessary
     return response.data;
   } catch (error) {
-    console.error('Error uploading project:', error);
-    throw error;
+    throw new Error(error.response?.data?.message || 'Failed to upload project');
   }
 };
 
-export const deleteProject = async (id) => {
+// Function to delete a project
+export const deleteProject = async (projectId) => {
   try {
-    const response = await API.delete(`/projects/${id}`);
+    const response = await API.delete(`/projects/${projectId}`); // Adjust the endpoint as necessary
     return response.data;
   } catch (error) {
-    console.error('Error deleting project:', error);
-    throw error;
+    throw new Error(error.response?.data?.message || 'Failed to delete project');
   }
 };
 
