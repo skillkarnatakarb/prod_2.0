@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL: 'http://localhost:5000/api', // Backend base URL
+  // baseURL: 'http://localhost:5000/api',
+  baseURL: 'https://prod1-0-backend-2.onrender.com/api', // Backend base URL
 });
 
 // Add a request interceptor to include the token in headers if available
