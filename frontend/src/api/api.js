@@ -1,8 +1,8 @@
 import axios from 'axios';
+import { API_BASE_URL } from '../config'; // Import the base URL from config.js
 
 const API = axios.create({
-  // baseURL: 'http://localhost:5000/api',
-  baseURL: 'https://prod1-0-backend-2.onrender.com/api', // Backend base URL
+  baseURL: API_BASE_URL, // Use the hosted backend URL
 });
 
 // Add a request interceptor to include the token in headers if available
