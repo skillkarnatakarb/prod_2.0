@@ -1,0 +1,20 @@
+.sidebar ul li {
+    padding: 10px 15px;
+    margin: 5px 0;
+    background: #673ab7;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .sidebar ul li:hover {
+    background: #512da8;
+  }
+  
+  .main-content {
+    flex-grow: 1;
+    padding: 20px;
+    background-color: #f4f4f4;
+  }
+  

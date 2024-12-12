@@ -29,6 +29,7 @@ export const uploadProject = async (data) => {
   try {
     const response = await API.post('/projects', data);
     return response.data;
+    
   } catch (error) {
     console.error('Error uploading project:', error);
     throw error;
