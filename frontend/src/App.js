@@ -230,7 +230,7 @@ function App() {
             />
 
             <Route
-              path="/college-dashboard"
+              path="/college-dashboard/*"
               element={
                 <ProtectedRoute allowedRoles={["college"]}>
                   <>
