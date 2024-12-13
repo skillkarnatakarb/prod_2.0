@@ -118,6 +118,9 @@ const Signin = () => {
               required
             />
           </div>
+          <div className="form-text">
+            <a href="/forgot-password">Forgot Password?</a>
+          </div>
           <button type="submit" className="form-button">
             Sign In
           </button>

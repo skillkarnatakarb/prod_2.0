@@ -7,12 +7,8 @@ const authRoutes = require('./routes/authRoutes'); // Authentication routes
 const roleRoutes = require('./routes/roleRoutes'); // Role-based routes
 const Event = require("./models/Event");
 
-
 const projectRoutes = require('./routes/projectRoutes');
-
-
 const eventRoutes = require("./routes/eventRoutes");
-
 
 const app = express();
 
@@ -56,19 +52,11 @@ app.use((err, req, res, next) => {
   });
 });
 
-
-
-
-
-
-
-
+// Add this debug log for Google login
+console.log('Ensure Google Login endpoint is configured at /api/auth/google-login');
 
 // Start the server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
-
-// Add this debug log for Google login
-console.log('Ensure Google Login endpoint is configured at /api/auth/google-login');
