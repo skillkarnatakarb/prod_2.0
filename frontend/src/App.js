@@ -6,6 +6,9 @@ import { Routes, Route, Navigate, useLocation, useNavigate } from 'react-router-
 import Header from './components/Header';
 import Section1 from './components/Section1';
 import Internship from './components/internships/Internship';
+import RegistrationForm from './components/internships/InternshipComponent/RegistrationForm';
+import TakeTest from './components/internships/InternshipComponent/TakeTest';
+
 import Section2 from './components/Section2';
 import HorizontalVerticalTabs from './components/HorizontalVerticalTabs';
 import VerificationTabs from './components/VerificationTabs';
@@ -35,6 +38,8 @@ const theme = createTheme({
   },
 });
 
+
+
 function App() {
   const [showPopup, setShowPopup] = useState(true);
   const location = useLocation();
@@ -51,6 +56,11 @@ function App() {
   // Checking dashboard routes
   const dashboardRoutes = ['/student-dashboard', '/corporate-dashboard', '/college-dashboard'];
   const isDashboard = dashboardRoutes.some((route) => location.pathname.startsWith(route));
+
+
+  const excludeHeaderRoutes = ['/register','/internships','/taketest']; // Add other routes if needed
+  const shouldShowHeader = !excludeHeaderRoutes.includes(location.pathname);
+
 
   // Check for popup on first load
   useEffect(() => {
@@ -140,7 +150,9 @@ function App() {
 
       {!showPopup && (
         <>
-          {!isDashboard && <Header />}
+          {/* {!isDashboard && <Header />} */}
+          {!isDashboard && shouldShowHeader && <Header />}
+
           <Routes>
             <Route
               path="/"
@@ -248,6 +260,12 @@ function App() {
 
             {/* Internships Route */}
             <Route path="/internships" element={<Internship />} />
+
+            <Route path="/register" element={<RegistrationForm />} />
+
+            <Route path="/taketest" element={<TakeTest />} />
+
+
 
             {/* Authentication Routes */}
             <Route path="/signup" element={<Signup />} />
