@@ -3,6 +3,8 @@ import { AppBar, Toolbar, Button, Box, IconButton, Drawer, List, ListItem, ListI
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import { HashLink } from 'react-router-hash-link';
+import { Link } from 'react-router-dom';
+
 
 function Header() {
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -14,6 +16,7 @@ function Header() {
   const menuItems = [
     { text: 'Jobs', link: '#HorizontalVerticalTabssection' },
     { text: 'Interviews', link: '#section1' },
+    { text: 'Internships', link: '/internships' },
     { text: 'Certificate', link: '#VerificationTabs' },
     { text: 'SignUp/Login', link: '#section2' },
     // { text: 'Login', link: '#section2' }
