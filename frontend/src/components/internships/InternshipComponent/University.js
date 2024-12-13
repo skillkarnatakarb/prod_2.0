@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const universities = [
   { name: 'University 1', date: '2024-01-01', takeTestLink: '/test1', registerLink: '/register' },
@@ -7,6 +8,12 @@ const universities = [
 ];
 
 const University = () => {
+  const navigate = useNavigate();
+
+  const handleRegisterClick = (registerLink) => {
+    navigate(registerLink);
+  };
+
   return (
     <div style={{ padding: '20px', textAlign: 'center' }}>
       <h2 style={{ fontSize: '2rem', color: '#1976d2', marginBottom: '20px' }}>Universities</h2>
@@ -30,22 +37,9 @@ const University = () => {
             />
             <h3>{university.name}</h3>
             <p>Date: {university.date}</p>
+
             <button
-              onClick={() => window.location.href = university.takeTestLink}
-              style={{
-                padding: '10px 20px',
-                backgroundColor: '#1976d2',
-                color: '#fff',
-                border: 'none',
-                borderRadius: '5px',
-                margin: '10px',
-                cursor: 'pointer',
-              }}
-            >
-              Take Test
-            </button>
-            <button
-              onClick={() => window.location.href = university.registerLink}
+              onClick={() => handleRegisterClick(university.registerLink)}
               style={{
                 padding: '10px 20px',
                 backgroundColor: '#4caf50',
