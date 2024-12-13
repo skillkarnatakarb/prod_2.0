@@ -144,3 +144,29 @@ export const updateUserProfile = async (userData) =>
 // Fetch activity logs
 export const fetchActivityLogs = async () =>
   retryRequest(() => API.get('/logs/activity').then((res) => validateResponse(res.data)));
+
+
+
+
+
+// Register a user
+export const registerUser = async (formData) => {
+  try {
+    const response = await API.post('/registrations/register', formData);
+    return response.data;
+  } catch (error) {
+    console.error('Error Registering User:', error.message);
+    throw error;
+  }
+};
+
+// Fetch all registrations
+export const getRegistrations = async () => {
+  try {
+    const response = await API.get('/registrations/registrations');
+    return response.data;
+  } catch (error) {
+    console.error('Error Fetching Registrations:', error.message);
+    throw error;
+  }
+};

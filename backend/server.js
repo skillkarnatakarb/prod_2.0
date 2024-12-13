@@ -6,16 +6,14 @@ const connectDB = require('./config/db'); // Database connection
 const authRoutes = require('./routes/authRoutes'); // Authentication routes
 const roleRoutes = require('./routes/roleRoutes'); // Role-based routes
 
+const registrationRoutes = require('./routes/registrationRoutes');
+
 const eventRoutes = require('./routes/eventRoutes');
 const projectRoutes = require('./routes/projectRoutes');
 const listRoutes = require('./routes/listRoutes');
 
 const Event = require("./models/Event");
 
-<<<<<<< HEAD
-
-=======
->>>>>>> c365a16ec51a82913acf5a0923b8469a61ed76d8
 
 
 const app = express();
@@ -47,6 +45,8 @@ app.use('/api/roles', roleRoutes); // Role-based routes
 app.use('/api/projects', projectRoutes); // Project routes
 app.use('/api/lists', listRoutes); // List routes
 app.use('/api/events', eventRoutes); // Event routes
+
+app.use('/api/registrations', registrationRoutes);
 
 // Log initialized routes
 const routes = ['/api/auth', '/api/roles', '/api/projects', '/api/lists', '/api/events'];
