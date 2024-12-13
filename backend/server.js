@@ -12,8 +12,6 @@ const listRoutes = require('./routes/listRoutes');
 
 const Event = require("./models/Event");
 
-const projectRoutes = require('./routes/projectRoutes');
-const eventRoutes = require("./routes/eventRoutes");
 
 
 const app = express();
