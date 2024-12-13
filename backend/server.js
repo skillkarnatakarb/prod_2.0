@@ -12,6 +12,10 @@ const listRoutes = require('./routes/listRoutes');
 
 const Event = require("./models/Event");
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> c365a16ec51a82913acf5a0923b8469a61ed76d8
 
 
 const app = express();
