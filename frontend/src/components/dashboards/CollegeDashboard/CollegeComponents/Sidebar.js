@@ -55,6 +55,7 @@ const Sidebar = () => {
     { name: "Internship", path: "/college-dashboard/internship" },
     { name: "Jobs", path: "/college-dashboard/jobs" },
     { name: "Events", path: "/college-dashboard/events" },
+    { name: "Calendar", path: "/college-dashboard/calendar" },
   ];
 
   return (

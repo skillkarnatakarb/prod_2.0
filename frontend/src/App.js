@@ -24,6 +24,10 @@ import Sidebar from './components/Sidebar';
 
 import "./styles/corporate.css";
 
+
+import ForgotPassword from "./components/ForgotPassword";
+import ResetPassword from "./components/ResetPassword";
+
 const theme = createTheme({
   palette: {
     primary: { main: '#1976d2' },
@@ -240,6 +244,10 @@ function App() {
                 </ProtectedRoute>
               }
             />
+
+            {/* Other routes */}
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/reset-password/:token" element={<ResetPassword />} />
 
             {/* Fallback Route */}
             <Route path="*" element={<Navigate to="/" replace />} />
