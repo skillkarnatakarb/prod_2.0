@@ -11,6 +11,8 @@ import Dashboard from './CollegeComponents/Dashboard';
 import Internship from './CollegeComponents/Internship';
 import Jobs from './CollegeComponents/Jobs';
 import Events from './CollegeComponents/Events';
+import Calendar from './CollegeComponents/Calendar';
+
 
 const CollegeDashboard = () => (
   <div style={{ display: 'flex', minHeight: '100vh' }}>
@@ -24,6 +26,7 @@ const CollegeDashboard = () => (
           <Route path="internship" element={<Internship />} />
           <Route path="jobs" element={<Jobs />} />
           <Route path="events" element={<Events />} />
+          <Route path="calendar" element={<Calendar />} />
           
           <Route path="College_profile" element={<College_porfile />} />
           <Route path="ContactUs" element={<ContactUs />} />

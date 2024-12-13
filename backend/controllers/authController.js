@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
+const nodemailer = require("nodemailer");
 
 // Generate JWT Token
 const generateToken = (id, role) => {
@@ -57,7 +58,7 @@ const loginUser = async (req, res) => {
       const token = generateToken(user._id, user.role);
 
       // Debugging: Log the response
-      console.log("User Login Successful:", { email: user.email, role: user.role });
+      // console.log("User Login Successful:", { email: user.email, role: user.role });
 
       res.json({
         id: user._id,
@@ -123,8 +124,70 @@ const googleLogin = async (req, res) => {
   }
 };
 
+
+
+
+// Forgot Password
+const forgotPassword = async (req, res) => {
+  const { email } = req.body;
+
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ message: "User not found!" });
+    }
+
+    // Generate a reset token
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
+
+    // Send email with reset link
+    const transporter = nodemailer.createTransport({
+      service: "Gmail",
+      auth: {
+        user: process.env.EMAIL,
+        pass: process.env.EMAIL_PASSWORD,
+      },
+    });
+
+    const resetLink = `http://localhost:3000/reset-password/${token}`;
+    await transporter.sendMail({
+      from: process.env.EMAIL,
+      to: user.email,
+      subject: "Password Reset Request",
+      html: `<p>Click <a href="${resetLink}">here</a> to reset your password. This link will expire in 1 hour.</p>`,
+    });
+
+    res.status(200).json({ message: "Password reset link sent!" });
+  } catch (error) {
+    res.status(500).json({ message: "An error occurred.", error: error.message });
+  }
+};
+
+// Reset Password
+const resetPassword = async (req, res) => {
+  const { token, password } = req.body;
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const user = await User.findById(decoded.id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found!" });
+    }
+
+    user.password = password; // Password will be hashed automatically in `pre` hook
+    await user.save();
+
+    res.status(200).json({ message: "Password reset successful!" });
+  } catch (error) {
+    res.status(400).json({ message: "Invalid or expired token.", error: error.message });
+  }
+};
+
+
 module.exports = {
   registerUser,
   loginUser,
   googleLogin,
+  forgotPassword,
+  resetPassword,
 };

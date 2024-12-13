@@ -27,6 +27,14 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false, // Default to false for non-Google users
     },
+    resetPasswordToken: {
+      type: String,
+      default: null, // Stores the reset token
+    },
+    resetPasswordExpire: {
+      type: Date,
+      default: null, // Stores the expiration time of the reset token
+    },
   },
   { timestamps: true }
 );
