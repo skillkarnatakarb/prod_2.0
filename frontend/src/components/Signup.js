@@ -9,20 +9,59 @@ const Signup = () => {
     email: "",
     mobile: "",
     password: "",
-    role: "student", // Default role
+    role: "student",
   });
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [mobileError, setMobileError] = useState("");
   const navigate = useNavigate();
 
+  const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+  const validatePassword = (password) => {
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    return passwordRegex.test(password);
+  };
+
+  const validateMobile = (mobile) => {
+    const mobileRegex = /^[6-9]\d{9}$/; // Indian mobile numbers start with 6-9 and are 10 digits long
+    return mobileRegex.test(mobile);
+  };
+
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+
+    if (name === "email") {
+      setEmailError(validateEmail(value) ? "" : "Invalid email format");
+    }
+    if (name === "password") {
+      setPasswordError(
+        validatePassword(value)
+          ? ""
+          : "Password must be at least 8 characters long, include one uppercase letter, one lowercase letter, one number, and one special character."
+      );
+    }
+    if (name === "mobile") {
+      setMobileError(
+        validateMobile(value)
+          ? ""
+          : "Mobile number must start with 6-9 and be 10 digits long."
+      );
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     setSuccess("");
+    if (emailError || passwordError || mobileError) {
+      setError("Please fix the errors before submitting");
+      return;
+    }
     try {
       await axios.post("http://localhost:5000/api/auth/register", formData);
       setSuccess("Signup successful! Redirecting to sign in...");
@@ -58,6 +97,7 @@ const Signup = () => {
               onChange={handleChange}
               required
             />
+            {emailError && <p className="error-message">{emailError}</p>}
           </div>
           <div className="form-group">
             <label>Mobile Number *</label>
@@ -69,6 +109,7 @@ const Signup = () => {
               onChange={handleChange}
               required
             />
+            {mobileError && <p className="error-message">{mobileError}</p>}
           </div>
           <div className="form-group">
             <label>Password *</label>
@@ -80,6 +121,7 @@ const Signup = () => {
               onChange={handleChange}
               required
             />
+            {passwordError && <p className="error-message">{passwordError}</p>}
           </div>
           <div className="form-group">
             <label>Role *</label>
