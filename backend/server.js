@@ -1,43 +1,42 @@
 require('dotenv').config({ path: __dirname + '/.env' }); // Load environment variables
-const connectDB = require('./config/db'); // Database connection
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const connectDB = require('./config/db'); // Database connection
 const authRoutes = require('./routes/authRoutes'); // Authentication routes
 const roleRoutes = require('./routes/roleRoutes'); // Role-based routes
-const Event = require("./models/Event");
-
-
+const eventRoutes = require('./routes/eventRoutes');
 const projectRoutes = require('./routes/projectRoutes');
-
-
-const eventRoutes = require("./routes/eventRoutes");
-
+const listRoutes = require('./routes/listRoutes');
 
 const app = express();
 
-// Debugging environment variables (remove in production)
-console.log('Loaded Environment Variables:', process.env);
+// Debug: Log environment variables (remove this in production)
+console.log('Loaded Environment Variables:', {
+  NODE_ENV: process.env.NODE_ENV,
+  PORT: process.env.PORT,
+  MONGO_URI: process.env.MONGO_URI ? '***' : 'Not Defined', // Mask sensitive data
+});
 
-// Database Connection
+// Connect to the database
 connectDB();
 
 // Middleware
 app.use(cors()); // Enable Cross-Origin Resource Sharing
 app.use(bodyParser.json()); // Parse JSON request bodies
 
-app.use("/api", eventRoutes); // Use event routes under "/api"
-
-// Debug Log: Server initialization
-console.log('Initializing server and setting up routes...');
+// Debug: Log middleware initialization
+console.log('Middleware initialized: CORS and BodyParser');
 
 // Routes
-app.use('/api/auth', authRoutes); // Authentication endpoints
-app.use('/api/roles', roleRoutes); // Role-based endpoints
-app.use("/api/projects", projectRoutes);
+app.use('/api/auth', authRoutes); // Authentication routes
+app.use('/api/roles', roleRoutes); // Role-based routes
+app.use('/api/projects', projectRoutes); // Project routes
+app.use('/api/lists', listRoutes); // List routes
+app.use('/api/events', eventRoutes); // Event routes
 
-// Debugging route initialization
-console.log('Routes initialized: /api/auth and /api/roles');
+// Debug: Log route initialization
+console.log('Routes initialized:', ['/api/auth', '/api/roles', '/api/projects', '/api/lists', '/api/events']);
 
 // Handle undefined routes
 app.use((req, res, next) => {
@@ -56,19 +55,11 @@ app.use((err, req, res, next) => {
   });
 });
 
-
-
-
-
-
-
-
-
 // Start the server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
 
-// Add this debug log for Google login
+// Debug: Add log for Google login configuration
 console.log('Ensure Google Login endpoint is configured at /api/auth/google-login');
