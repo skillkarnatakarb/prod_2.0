@@ -1,4 +1,3 @@
-// CollegeDashboard.js
 import React from 'react';
 import { Route, Routes, Navigate } from 'react-router-dom';
 import Sidebar from './CollegeComponents/Sidebar';
@@ -26,8 +25,11 @@ const CollegeDashboard = () => (
           <Route path="internship" element={<Internship />} />
           <Route path="jobs" element={<Jobs />} />
           <Route path="events" element={<Events />} />
+
+
           <Route path="calendar" element={<Calendar />} />
           
+
           <Route path="College_profile" element={<College_porfile />} />
           <Route path="ContactUs" element={<ContactUs />} />
           <Route path="Notification" element={<Notification />} />
