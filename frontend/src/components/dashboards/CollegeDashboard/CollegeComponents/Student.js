@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Box,
   Button,
@@ -9,8 +9,16 @@ import {
   Input,
   Alert,
   CircularProgress,
+  Card,
+  CardContent,
+  CardActions,
 } from '@mui/material';
-import { downloadStudentTemplate, createList } from '../../../../api/api';
+import {
+  downloadStudentTemplate,
+  createList,
+  fetchLists,
+  deleteList,
+} from '../../../../api/api';
 
 const modalStyle = {
   position: 'absolute',
@@ -32,6 +40,7 @@ const Student = () => {
   const [fileError, setFileError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [lists, setLists] = useState([]);
 
   const handleOpen = () => setOpen(true);
 
@@ -118,6 +127,9 @@ const Student = () => {
       setSuccessMessage('List created successfully');
       console.log('List created:', response);
 
+      // Reload lists
+      loadLists();
+
       // Auto-hide success message after 3 seconds
       setTimeout(() => {
         setSuccessMessage('');
@@ -134,6 +146,31 @@ const Student = () => {
     }
   };
 
+  const loadLists = async () => {
+    try {
+      const data = await fetchLists();
+      setLists(data);
+    } catch (error) {
+      console.error('Error fetching lists:', error.message);
+      setErrorMessage('Failed to fetch lists. Please try again later.');
+    }
+  };
+
+  const handleDeleteList = async (id) => {
+    try {
+      await deleteList(id);
+      setSuccessMessage('List deleted successfully');
+      loadLists();
+    } catch (error) {
+      console.error('Error deleting list:', error.message);
+      setErrorMessage('Failed to delete list. Please try again.');
+    }
+  };
+
+  useEffect(() => {
+    loadLists();
+  }, []);
+
   return (
     <Box sx={{ p: 3 }}>
       <Typography variant="h4" gutterBottom>
@@ -144,10 +181,34 @@ const Student = () => {
       </Button>
 
       <Box mt={3}>
-        <Typography variant="body1">0 records</Typography>
-        <Typography variant="body2" color="text.secondary">
-          No data available
-        </Typography>
+        {lists.length > 0 ? (
+          lists.map((list) => (
+            <Card key={list.id} sx={{ mb: 2 }}>
+              <CardContent>
+                <Typography variant="h6">{list.name}</Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Date Created: {new Date(list.createdAt).toLocaleDateString()}
+                </Typography>
+                <Typography variant="body2">
+                  Number of Students: {list.studentCount}
+                </Typography>
+              </CardContent>
+              <CardActions>
+                <Button
+                  size="small"
+                  color="error"
+                  onClick={() => handleDeleteList(list.id)}
+                >
+                  Remove
+                </Button>
+              </CardActions>
+            </Card>
+          ))
+        ) : (
+          <Typography variant="body2" color="text.secondary">
+            No data available
+          </Typography>
+        )}
       </Box>
 
       <Modal open={open} onClose={handleClose}>

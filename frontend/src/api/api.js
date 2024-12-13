@@ -68,103 +68,79 @@ const validateResponse = (response, expectedSchema) => {
   return response;
 };
 
-// =========== PROJECT FUNCTIONALITY =========== //
-
-// Fetch all projects
-export const fetchProjects = () =>
-  retryRequest(() =>
-    API.get('/projects').then((res) => validateResponse(res.data, { projects: 'array' }))
-  );
-
-// Upload a project
-export const uploadProject = (projectData) =>
-  retryRequest(() =>
-    API.post('/projects', projectData).then((res) => validateResponse(res.data))
-  );
-
-// Delete a project
-export const deleteProject = (projectId) =>
-  retryRequest(() =>
-    API.delete(`/projects/${projectId}`).then((res) => validateResponse(res.data))
-  );
-
 // =========== STUDENT LIST FUNCTIONALITY =========== //
 
 // Fetch all student lists
 export const fetchLists = () =>
   retryRequest(() =>
-    API.get('/lists/get-lists').then((res) => validateResponse(res.data, { lists: 'array' }))
+    API.get('/lists').then((res) => validateResponse(res.data, { lists: 'array' }))
   );
 
-// Fetch details of a specific student list
-export const fetchListDetails = (listId) =>
-  retryRequest(() =>
-    API.get(`/lists/get-list/${listId}`).then((res) => validateResponse(res.data))
-  );
+// Download the CSV template
+export const downloadStudentTemplate = async () => {
+  try {
+    const response = await API.get('/lists/template', {
+      responseType: 'blob', // Ensures the file is treated as a blob
+    });
+
+    // Create a URL for the downloaded file and trigger the download
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', 'Student_Template.csv'); // File name for download
+    document.body.appendChild(link);
+    link.click();
+    link.parentNode.removeChild(link);
+  } catch (error) {
+    console.error('Error downloading template:', error.message);
+    throw error;
+  }
+};
 
 // Create a new student list
 export const createList = (formData) =>
   retryRequest(() =>
-    API.post('/lists/save-list', formData, {
+    API.post('/lists/create', formData, {
       headers: { 'Content-Type': 'multipart/form-data' },
     }).then((res) => validateResponse(res.data))
   );
 
-// Delete a student list
+// Delete a student list by ID
 export const deleteList = (listId) =>
   retryRequest(() =>
-    API.delete(`/lists/delete-list/${listId}`).then((res) => validateResponse(res.data))
+    API.delete(`/lists/${listId}`).then((res) => validateResponse(res.data))
   );
 
-// Add a student to a specific list
-export const addStudentToList = (listId, studentData) =>
+// =========== PROJECT FUNCTIONALITY =========== //
+
+// Fetch all projects
+export const fetchProjects = async () =>
+  retryRequest(() => API.get('/projects').then((res) => validateResponse(res.data)));
+
+// Upload a new project
+export const uploadProject = async (projectData) =>
   retryRequest(() =>
-    API.post('/lists/add-student', { ...studentData, listId }).then((res) => validateResponse(res.data))
+    API.post('/projects', projectData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    }).then((res) => validateResponse(res.data))
   );
 
-// Bulk upload students to a list
-export const bulkUploadStudents = (listId, students) =>
+// Delete a project by ID
+export const deleteProject = async (projectId) =>
+  retryRequest(() => API.delete(`/projects/${projectId}`).then((res) => validateResponse(res.data)));
+
+// =========== GENERIC UTILITY FUNCTIONS =========== //
+
+// Fetch user data
+export const fetchUserData = async () =>
+  retryRequest(() => API.get('/users/me').then((res) => validateResponse(res.data)));
+
+// Update user profile
+export const updateUserProfile = async (userData) =>
   retryRequest(() =>
-    API.post(`/lists/bulk-upload/${listId}`, students).then((res) => validateResponse(res.data))
+    API.put('/users/me', userData).then((res) => validateResponse(res.data))
   );
 
-// Download a CSV template for students
-export const downloadStudentTemplate = async () =>
-  retryRequest(async () => {
-    const response = await API.get('/lists/download-template', { responseType: 'blob' });
-
-    const blob = new Blob([response.data], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = 'student-template.csv';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
-  });
-
-// =========== NEW FUNCTIONALITY =========== //
-
-// Update an existing student list
-export const updateList = (listId, updatedData) =>
-  retryRequest(() =>
-    API.put(`/lists/update-list/${listId}`, updatedData).then((res) => validateResponse(res.data))
-  );
-
-// Fetch all students in a specific list
-export const fetchStudentsInList = (listId) =>
-  retryRequest(() =>
-    API.get(`/lists/get-students/${listId}`).then((res) => validateResponse(res.data, { students: 'array' }))
-  );
-
-// Handle general API errors
-export const handleApiError = (error) => {
-  if (error.response && error.response.data) {
-    console.error('API Error Response:', error.response.data);
-    return error.response.data.message || 'An error occurred. Please try again.';
-  }
-  console.error('API Error:', error.message);
-  return 'An error occurred. Please check your connection.';
-};
+// Fetch activity logs
+export const fetchActivityLogs = async () =>
+  retryRequest(() => API.get('/logs/activity').then((res) => validateResponse(res.data)));

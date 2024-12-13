@@ -11,12 +11,16 @@ const listRoutes = require('./routes/listRoutes');
 
 const app = express();
 
-// Debug: Log environment variables (remove this in production)
-console.log('Loaded Environment Variables:', {
-  NODE_ENV: process.env.NODE_ENV,
-  PORT: process.env.PORT,
-  MONGO_URI: process.env.MONGO_URI ? '***' : 'Not Defined', // Mask sensitive data
-});
+// Log environment variables for debugging (mask sensitive data)
+if (process.env.NODE_ENV !== 'production') {
+  console.log('Environment Variables:', {
+    NODE_ENV: process.env.NODE_ENV,
+    PORT: process.env.PORT || 5000,
+    MONGO_URI: process.env.MONGO_URI ? '***' : 'Not Defined', // Mask sensitive data
+  });
+} else {
+  console.log('Environment Variables loaded for production mode.');
+}
 
 // Connect to the database
 connectDB();
@@ -25,18 +29,19 @@ connectDB();
 app.use(cors()); // Enable Cross-Origin Resource Sharing
 app.use(bodyParser.json()); // Parse JSON request bodies
 
-// Debug: Log middleware initialization
+// Log middleware initialization
 console.log('Middleware initialized: CORS and BodyParser');
 
-// Routes
+// API Routes
 app.use('/api/auth', authRoutes); // Authentication routes
 app.use('/api/roles', roleRoutes); // Role-based routes
 app.use('/api/projects', projectRoutes); // Project routes
 app.use('/api/lists', listRoutes); // List routes
 app.use('/api/events', eventRoutes); // Event routes
 
-// Debug: Log route initialization
-console.log('Routes initialized:', ['/api/auth', '/api/roles', '/api/projects', '/api/lists', '/api/events']);
+// Log initialized routes
+const routes = ['/api/auth', '/api/roles', '/api/projects', '/api/lists', '/api/events'];
+console.log('Routes initialized:', routes);
 
 // Handle undefined routes
 app.use((req, res, next) => {
@@ -51,15 +56,17 @@ app.use((err, req, res, next) => {
   console.error(`Global Error: ${err.message}`);
   res.status(500).json({
     message: 'Internal Server Error',
-    error: err.message,
+    error: process.env.NODE_ENV === 'production' ? undefined : err.message, // Hide error details in production
   });
 });
 
 // Start the server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`Server is running on port ${PORT}`);
+  console.log('Visit http://localhost:' + PORT + ' to access the API.');
 });
 
-// Debug: Add log for Google login configuration
+// Additional logs for specific features
 console.log('Ensure Google Login endpoint is configured at /api/auth/google-login');
+console.log('Make sure MONGO_URI is set correctly in your .env file');
