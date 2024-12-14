@@ -6,13 +6,13 @@ const TakeTest = () => {
       id: 1,
       logo: `${process.env.PUBLIC_URL}/Assets/company1.png`, // Replace with your actual logo path
       description: 'Exciting opportunity at Company 1. Apply your skills and grow with us!',
-      testLink: '/test1',
+      testLink: 'https://online-test.classplusapp.com/?testId=6757ee11c952d3e9fc2507c3&defaultLanguage=en-US',
     },
     {
       id: 2,
       logo: `${process.env.PUBLIC_URL}/Assets/company2.png`, // Replace with your actual logo path
       description: 'Join Company 2 for a challenging and rewarding experience.',
-      testLink: '/test2',
+      testLink: 'https://online-test.classplusapp.com/?testId=6757ee11c952d3e9fc2507c3&defaultLanguage=en-US',
     },
   ];
 

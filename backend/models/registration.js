@@ -8,6 +8,7 @@ const registrationSchema = new mongoose.Schema({
   phoneNumber: { type: String, required: true },
   email: { type: String, required: true },
   address: { type: String, required: true },
+  role: { type: String, required: true, enum: ['Placement Officer', 'Faculty', 'HOD', 'Student'] }, // Added Role field
 }, { timestamps: true });
 
 module.exports = mongoose.model('Registration', registrationSchema);
