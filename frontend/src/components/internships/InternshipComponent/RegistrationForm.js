@@ -9,6 +9,7 @@ const RegistrationForm = () => {
     college: '',
     degree: '',
     branch: '',
+    role: '',  // Added role field
     phoneNumber: '',
     email: '',
     address: '',
@@ -27,6 +28,7 @@ const RegistrationForm = () => {
     if (!formData.college) newErrors.college = 'College is required';
     if (!formData.degree) newErrors.degree = 'Degree is required';
     if (!formData.branch) newErrors.branch = 'Branch is required';
+    if (!formData.role) newErrors.role = 'Role is required';  // Validation for Role
     if (!phoneRegex.test(formData.phoneNumber))
       newErrors.phoneNumber = 'Invalid phone number';
     if (!emailRegex.test(formData.email))
@@ -52,14 +54,15 @@ const RegistrationForm = () => {
           college: '',
           degree: '',
           branch: '',
+          role: '',  // Reset role after submit
           phoneNumber: '',
           email: '',
           address: '',
         });
-        setShowPopup(true); // Show popup animation
+        setShowPopup(true);
         setTimeout(() => {
-          setShowPopup(false); // Hide popup
-          navigate('/taketest'); // Redirect after the animation
+          setShowPopup(false);
+          navigate('/taketest');
         }, 3000);
       } catch (error) {
         alert('Failed to register: ' + error.message);
@@ -78,9 +81,6 @@ const RegistrationForm = () => {
         fontFamily: 'Arial, sans-serif',
       }}
     >
-
-        
-        {/* Define the animation styles */}
       <style>
         {`
           @keyframes fadeIn {
@@ -95,7 +95,6 @@ const RegistrationForm = () => {
           }
         `}
       </style>
-
 
       <div
         style={{
@@ -119,11 +118,74 @@ const RegistrationForm = () => {
           Register for Test
         </h2>
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-          {Object.keys(formData).map((field) => (
+          {/* Degree Input */}
+          <div>
+            <label style={{ display: 'block', marginBottom: '5px' }}>Degree:</label>
+            <input
+              type="text"
+              name="degree"
+              placeholder="Enter Degree"
+              value={formData.degree}
+              onChange={handleChange}
+              style={{
+                width: '100%',
+                padding: '10px',
+                border: '1px solid #ccc',
+                borderRadius: '5px',
+                fontSize: '1rem',
+              }}
+            />
+            {errors.degree && <span style={{ color: 'red', fontSize: '12px' }}>{errors.degree}</span>}
+          </div>
+
+          {/* Branch Input */}
+          <div>
+            <label style={{ display: 'block', marginBottom: '5px' }}>Branch:</label>
+            <input
+              type="text"
+              name="branch"
+              placeholder="Enter Branch"
+              value={formData.branch}
+              onChange={handleChange}
+              style={{
+                width: '100%',
+                padding: '10px',
+                border: '1px solid #ccc',
+                borderRadius: '5px',
+                fontSize: '1rem',
+              }}
+            />
+            {errors.branch && <span style={{ color: 'red', fontSize: '12px' }}>{errors.branch}</span>}
+          </div>
+
+          {/* Role Dropdown */}
+          <div>
+            <label style={{ display: 'block', marginBottom: '5px' }}>Role:</label>
+            <select
+              name="role"
+              value={formData.role}
+              onChange={handleChange}
+              style={{
+                width: '100%',
+                padding: '10px',
+                border: '1px solid #ccc',
+                borderRadius: '5px',
+                fontSize: '1rem',
+              }}
+            >
+              <option value="">Select Role</option>
+              <option value="Placement Officer">Placement Officer</option>
+              <option value="Faculty">Faculty</option>
+              <option value="HOD">HOD</option>
+              <option value="Student">Student</option>
+            </select>
+            {errors.role && <span style={{ color: 'red', fontSize: '12px' }}>{errors.role}</span>}
+          </div>
+
+          {/* Other fields */}
+          {['name', 'college', 'phoneNumber', 'email', 'address'].map((field) => (
             <div key={field}>
-              <label style={{ display: 'block', marginBottom: '5px', textTransform: 'capitalize' }}>
-                {field}:
-              </label>
+              <label style={{ display: 'block', marginBottom: '5px' }}>{field}:</label>
               <input
                 type={field === 'email' ? 'email' : 'text'}
                 name={field}
@@ -141,6 +203,7 @@ const RegistrationForm = () => {
               {errors[field] && <span style={{ color: 'red', fontSize: '12px' }}>{errors[field]}</span>}
             </div>
           ))}
+
           <button
             type="submit"
             style={{
