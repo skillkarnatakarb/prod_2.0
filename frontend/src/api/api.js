@@ -106,10 +106,11 @@ export const createList = (formData) =>
   );
 
 // Delete a student list by ID
-export const deleteList = (listId) =>
-  retryRequest(() =>
-    API.delete(`/lists/${listId}`).then((res) => validateResponse(res.data))
-  );
+export const deleteList = (id) => {
+  if (!id) throw new Error('List ID is required');
+  return API.delete(`/lists/${id}`);
+};
+
 
 // =========== PROJECT FUNCTIONALITY =========== //
 
