@@ -5,7 +5,7 @@ const AddStudentModal = ({ listId, onClose, onStudentAdded }) => {
   const [student, setStudent] = useState({
     name: '',
     email: '',
-    phone: '',
+    phoneNumber: '',
     collegeName: '',
     education: '',
     specialization: '',
@@ -13,13 +13,18 @@ const AddStudentModal = ({ listId, onClose, onStudentAdded }) => {
   });
 
   const handleInputChange = (e) => {
-    setStudent({ ...student, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setStudent({ ...student, [name]: value });
   };
 
   const handleSubmit = async () => {
-    const response = await addStudent({ ...student, listId });
-    onStudentAdded(response);
-    onClose();
+    try {
+      const response = await addStudent({ ...student, listId });
+      onStudentAdded(response.data);
+      onClose();
+    } catch (error) {
+      console.error('Error adding student:', error.response?.data || error.message);
+    }
   };
 
   return (
@@ -40,7 +45,41 @@ const AddStudentModal = ({ listId, onClose, onStudentAdded }) => {
           value={student.email}
           onChange={handleInputChange}
         />
-        {/* Add more fields here */}
+        <input
+          type="text"
+          name="phoneNumber"
+          placeholder="Phone Number"
+          value={student.phoneNumber}
+          onChange={handleInputChange}
+        />
+        <input
+          type="text"
+          name="collegeName"
+          placeholder="College Name"
+          value={student.collegeName}
+          onChange={handleInputChange}
+        />
+        <input
+          type="text"
+          name="education"
+          placeholder="Education"
+          value={student.education}
+          onChange={handleInputChange}
+        />
+        <input
+          type="text"
+          name="specialization"
+          placeholder="Specialization"
+          value={student.specialization}
+          onChange={handleInputChange}
+        />
+        <input
+          type="text"
+          name="semester"
+          placeholder="Semester"
+          value={student.semester}
+          onChange={handleInputChange}
+        />
         <button onClick={handleSubmit}>Add Student</button>
         <button onClick={onClose}>Cancel</button>
       </div>

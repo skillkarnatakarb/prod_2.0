@@ -9,16 +9,13 @@ import {
   Input,
   Alert,
   CircularProgress,
-  Card,
-  CardContent,
-  CardActions,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
 } from '@mui/material';
-import {
-  downloadStudentTemplate,
-  createList,
-  fetchLists,
-  deleteList,
-} from '../../../../api/api';
+import { downloadStudentTemplate, createList, fetchLists, deleteList } from '../../../../api/api';
 
 const modalStyle = {
   position: 'absolute',
@@ -41,6 +38,8 @@ const Student = () => {
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [lists, setLists] = useState([]);
+  const [deleting, setDeleting] = useState(false);
+  const [deleteId, setDeleteId] = useState(null);
 
   const handleOpen = () => setOpen(true);
 
@@ -73,9 +72,6 @@ const Student = () => {
     } else if (file.size > MAX_FILE_SIZE) {
       setFileError('File size exceeds the 2MB limit');
       setCsvFile(null);
-    } else if (file.type !== 'text/csv') {
-      setFileError('Invalid file type. Please upload a CSV file.');
-      setCsvFile(null);
     } else {
       setFileError('');
       setCsvFile(file);
@@ -92,7 +88,6 @@ const Student = () => {
       await downloadStudentTemplate();
       alert('Template downloaded successfully');
     } catch (error) {
-      console.error('Error downloading template:', error.message);
       setErrorMessage('Failed to download template. Please try again.');
     }
   };
@@ -123,21 +118,11 @@ const Student = () => {
       formData.append('name', listName);
       formData.append('csvFile', csvFile);
 
-      const response = await createList(formData);
+      await createList(formData);
       setSuccessMessage('List created successfully');
-      console.log('List created:', response);
-
-      // Reload lists
       loadLists();
-
-      // Auto-hide success message after 3 seconds
-      setTimeout(() => {
-        setSuccessMessage('');
-      }, 3000);
-
       handleClose();
     } catch (error) {
-      console.error('Error saving list:', error.message);
       setErrorMessage(
         error.response?.data?.message || 'Error saving list. Please try again.'
       );
@@ -147,22 +132,34 @@ const Student = () => {
   };
 
   const loadLists = async () => {
+    setLoading(true);
     try {
       const data = await fetchLists();
       setLists(data);
     } catch (error) {
-      console.error('Error fetching lists:', error.message);
       setErrorMessage('Failed to fetch lists. Please try again later.');
+    } finally {
+      setLoading(false);
     }
   };
 
-  const handleDeleteList = async (id) => {
+  const confirmDelete = (id) => {
+    setDeleteId(id);
+    setDeleting(true);
+  };
+
+  const handleDeleteList = async () => {
+    if (!deleteId) {
+      setErrorMessage('Invalid List ID');
+      return;
+    }
+
     try {
-      await deleteList(id);
+      await deleteList(deleteId);
       setSuccessMessage('List deleted successfully');
       loadLists();
+      setDeleting(false);
     } catch (error) {
-      console.error('Error deleting list:', error.message);
       setErrorMessage('Failed to delete list. Please try again.');
     }
   };
@@ -170,6 +167,16 @@ const Student = () => {
   useEffect(() => {
     loadLists();
   }, []);
+
+  useEffect(() => {
+    if (successMessage || errorMessage) {
+      const timer = setTimeout(() => {
+        setSuccessMessage('');
+        setErrorMessage('');
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [successMessage, errorMessage]);
 
   return (
     <Box sx={{ p: 3 }}>
@@ -180,29 +187,56 @@ const Student = () => {
         Create a new list
       </Button>
 
-      <Box mt={3}>
-        {lists.length > 0 ? (
+      {/* Header Row */}
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          fontWeight: 'bold',
+          mt: 3,
+          mb: 1,
+          padding: '10px 20px',
+          backgroundColor: '#f0f0f0',
+          borderRadius: '8px',
+        }}
+      >
+        <Typography sx={{ flex: 1 }}>Date Created</Typography>
+        <Typography sx={{ flex: 1, textAlign: 'center' }}>List Name</Typography>
+        <Typography sx={{ flex: 1, textAlign: 'center' }}>No. of Students</Typography>
+        <Typography sx={{ flex: 0 }}>Action</Typography>
+      </Box>
+
+      {/* List Items */}
+      <Box>
+        {loading ? (
+          <CircularProgress />
+        ) : lists.length > 0 ? (
           lists.map((list) => (
-            <Card key={list.id} sx={{ mb: 2 }}>
-              <CardContent>
-                <Typography variant="h6">{list.name}</Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Date Created: {new Date(list.createdAt).toLocaleDateString()}
-                </Typography>
-                <Typography variant="body2">
-                  Number of Students: {list.studentCount}
-                </Typography>
-              </CardContent>
-              <CardActions>
-                <Button
-                  size="small"
-                  color="error"
-                  onClick={() => handleDeleteList(list.id)}
-                >
-                  Remove
-                </Button>
-              </CardActions>
-            </Card>
+            <Box
+              key={list._id}
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                border: '1px solid #ddd',
+                borderRadius: '8px',
+                padding: '10px 20px',
+                marginBottom: '10px',
+                backgroundColor: '#fff',
+              }}
+            >
+              <Typography sx={{ flex: 1 }}>{new Date(list.createdAt).toLocaleDateString()}</Typography>
+              <Typography sx={{ flex: 1, textAlign: 'center' }}>{list.name}</Typography>
+              <Typography sx={{ flex: 1, textAlign: 'center' }}>{list.studentCount}</Typography>
+              <Button
+                size="small"
+                color="error"
+                onClick={() => confirmDelete(list._id)}
+                sx={{ flex: 0 }}
+              >
+                Remove
+              </Button>
+            </Box>
           ))
         ) : (
           <Typography variant="body2" color="text.secondary">
@@ -211,21 +245,30 @@ const Student = () => {
         )}
       </Box>
 
+      {/* Delete Confirmation Dialog */}
+      <Dialog open={deleting} onClose={() => setDeleting(false)}>
+        <DialogTitle>Delete Confirmation</DialogTitle>
+        <DialogContent>
+          <DialogContentText>Are you sure you want to delete this list?</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setDeleting(false)} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleDeleteList} color="error" autoFocus>
+            Confirm
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Modal Section */}
       <Modal open={open} onClose={handleClose}>
         <Box sx={modalStyle}>
           <Typography variant="h6" gutterBottom>
             Create Student List
           </Typography>
-          {successMessage && (
-            <Alert severity="success" sx={{ mb: 2 }}>
-              {successMessage}
-            </Alert>
-          )}
-          {errorMessage && (
-            <Alert severity="error" sx={{ mb: 2 }}>
-              {errorMessage}
-            </Alert>
-          )}
+          {successMessage && <Alert severity="success">{successMessage}</Alert>}
+          {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
           <TextField
             label="List Name"
             variant="outlined"
@@ -235,66 +278,32 @@ const Student = () => {
             onChange={(e) => setListName(e.target.value)}
             disabled={loading}
           />
-          <Box
-            sx={{
-              border: '2px dashed #ccc',
-              borderRadius: '8px',
-              padding: '16px',
-              textAlign: 'center',
-              mb: 2,
-            }}
-          >
-            <Typography variant="body2" color="text.secondary" gutterBottom>
-              Upload CSV file
-            </Typography>
+          <Box sx={{ border: '2px dashed #ccc', padding: '16px', mb: 2, textAlign: 'center' }}>
+            <Typography variant="body2">Upload CSV file</Typography>
             <Input
               type="file"
               inputProps={{ accept: '.csv' }}
               onChange={handleFileChange}
-              disableUnderline
               fullWidth
-              style={{ marginTop: '8px' }}
-              disabled={loading}
             />
             {csvFile && (
-              <Typography variant="body2" color="text.primary" mt={1}>
+              <Typography mt={1}>
                 File: {csvFile.name}{' '}
-                <Button
-                  size="small"
-                  color="error"
-                  onClick={handleRemoveFile}
-                  disabled={loading}
-                >
+                <Button size="small" color="error" onClick={handleRemoveFile}>
                   Remove
                 </Button>
               </Typography>
             )}
-            {fileError && (
-              <Typography variant="body2" color="error" mt={1}>
-                {fileError}
-              </Typography>
-            )}
           </Box>
-          <Button
-            variant="outlined"
-            color="secondary"
-            sx={{ textTransform: 'none', mb: 2 }}
-            onClick={handleDownloadTemplate}
-            disabled={loading}
-          >
+          <Button variant="outlined" onClick={handleDownloadTemplate} sx={{ mb: 2 }}>
             Download Template
           </Button>
           <Divider>OR</Divider>
           <Box display="flex" justifyContent="flex-end" mt={2}>
-            <Button variant="text" color="error" onClick={handleClose} disabled={loading}>
+            <Button color="error" onClick={handleClose}>
               Cancel
             </Button>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={handleSave}
-              disabled={loading}
-            >
+            <Button variant="contained" onClick={handleSave} disabled={loading}>
               {loading ? <CircularProgress size={24} color="inherit" /> : 'Save List'}
             </Button>
           </Box>

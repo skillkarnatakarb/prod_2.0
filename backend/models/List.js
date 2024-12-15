@@ -3,7 +3,9 @@ const mongoose = require('mongoose');
 const listSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true,
+    required: [true, "List name is required"],
+    unique: true, // Ensure unique names
+    trim: true,
   },
   createdAt: {
     type: Date,
