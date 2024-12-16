@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { auth, provider } from "../firebase";
 import { signInWithPopup } from "firebase/auth";
 import "../styles/Form.css";
+import { API_BASE_URL } from "../config";
 
 const Signin = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -31,7 +32,7 @@ const Signin = () => {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
 
-      const response = await axios.post("http://localhost:5000/api/auth/google-login", {
+      const response = await axios.post("${API_BASE_URL}/auth/google-login", {
         email: user.email,
         name: user.displayName || "Google User",
       });
@@ -67,7 +68,11 @@ const Signin = () => {
       return;
     }
     try {
-      const response = await axios.post("http://localhost:5000/api/auth/signin", formData);
+      // const response = await axios.post("http://localhost:5000/api/auth/signin", formData);
+      const response = await axios.post(
+        `${API_BASE_URL}/auth/signin`,
+        formData
+      );
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("role", response.data.role);
 
