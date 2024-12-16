@@ -5,13 +5,13 @@ const techCourses = [
     title: 'Frontend Development ',
     imgSrc: process.env.PUBLIC_URL + '/Assets/59.png',
      
-    curriculumLink: process.env.PUBLIC_URL + '/Assets/sample.pdf',
+    curriculumLink: process.env.PUBLIC_URL + '/Assets/sample_compressed.pdf',
     enrollLink: 'https://example.com/enroll-tcs-codevita',
   },
   { 
     title: 'Cloud Computing',
     imgSrc: process.env.PUBLIC_URL + '/Assets/12.png',
-       curriculumLink: '/Assets/product-based.pdf',
+       curriculumLink: process.env.PUBLIC_URL + '/Assets/sample_compressed.pdf',
     enrollLink: 'https://example.com/enroll-product-based',
   },
   { 
