@@ -4,6 +4,14 @@ import { useNavigate } from 'react-router-dom';
 const universities = [
   { name: 'University 1', date: '2024-01-01', takeTestLink: '/test1', registerLink: '/register' },
   { name: 'University 2', date: '2024-01-02', takeTestLink: '/test2', registerLink: '/register' },
+  { name: 'University 3', date: '2024-01-03', takeTestLink: '/test3', registerLink: '/register' },
+  { name: 'University 4', date: '2024-01-04', takeTestLink: '/test4', registerLink: '/register' },
+  { name: 'University 5', date: '2024-01-05', takeTestLink: '/test5', registerLink: '/register' },
+  { name: 'University 6', date: '2024-01-06', takeTestLink: '/test6', registerLink: '/register' },
+  { name: 'University 7', date: '2024-01-07', takeTestLink: '/test7', registerLink: '/register' },
+  { name: 'University 8', date: '2024-01-08', takeTestLink: '/test8', registerLink: '/register' },
+  { name: 'University 9', date: '2024-01-09', takeTestLink: '/test9', registerLink: '/register' },
+  { name: 'University 10', date: '2024-01-10', takeTestLink: '/test10', registerLink: '/register' },
   // Add more universities here...
 ];
 
