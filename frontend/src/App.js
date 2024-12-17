@@ -1,44 +1,48 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { Routes, Route, Navigate, useLocation, useNavigate } from 'react-router-dom';
+import React, { useState, useRef, useEffect } from "react";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import {
+  Routes,
+  Route,
+  Navigate,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 
 // Components
-import Header from './components/Header';
-import Section1 from './components/Section1';
-import Internship from './components/internships/Internship';
-import RegistrationForm from './components/internships/InternshipComponent/RegistrationForm';
-import TakeTest from './components/internships/InternshipComponent/TakeTest';
+import Header from "./components/Header";
+import Section1 from "./components/Section1";
+import Internship from "./components/internships/Internship";
+import RegistrationForm from "./components/internships/InternshipComponent/RegistrationForm";
+import TakeTest from "./components/internships/InternshipComponent/TakeTest";
 
-import Section2 from './components/Section2';
-import HorizontalVerticalTabs from './components/HorizontalVerticalTabs';
-import VerificationTabs from './components/VerificationTabs';
-import Section3 from './components/Section3';
-import Section4 from './components/Section4';
-import Footer from './components/Footer';
-import ImageCard from './components/ImageCard';
-import VideoComponent from './components/VideoComponent';
+import Section2 from "./components/Section2";
+import HorizontalVerticalTabs from "./components/HorizontalVerticalTabs";
+import VerificationTabs from "./components/VerificationTabs";
+import Section3 from "./components/Section3";
+import Section4 from "./components/Section4";
+import Footer from "./components/Footer";
+import ImageCard from "./components/ImageCard";
+import VideoComponent from "./components/VideoComponent";
 
 // Authentication and Dashboard Components
-import Signin from './components/Signin';
-import Signup from './components/Signup';
-import ProtectedRoute from './components/ProtectedRoute';
-import StudentDashboard from './components/dashboards/StudentDashboard/StudentDashboard';
-import CorporateDashboard from './components/dashboards/CorporateDashboard/CorporateDashboard';
-import CollegeDashboard from './components/dashboards/CollegeDashboard/CollegeDashboard';
-import Sidebar from './components/Sidebar';
+import Signin from "./components/Signin";
+import Signup from "./components/Signup";
+import ProtectedRoute from "./components/ProtectedRoute";
+import StudentDashboard from "./components/dashboards/StudentDashboard/StudentDashboard";
+import CorporateDashboard from "./components/dashboards/CorporateDashboard/CorporateDashboard";
+import CollegeDashboard from "./components/dashboards/CollegeDashboard/CollegeDashboard";
+import Sidebar from "./components/Sidebar";
 
-import './styles/corporate.css';
-import ForgotPassword from './components/ForgotPassword';
-import ResetPassword from './components/ResetPassword';
+import "./styles/corporate.css";
+import ForgotPassword from "./components/ForgotPassword";
+import ResetPassword from "./components/ResetPassword";
 
 const theme = createTheme({
   palette: {
-    primary: { main: '#1976d2' },
-    secondary: { main: '#dc004e' },
+    primary: { main: "#1976d2" },
+    secondary: { main: "#dc004e" },
   },
 });
-
-
 
 function App() {
   const [showPopup, setShowPopup] = useState(true);
@@ -50,30 +54,33 @@ function App() {
 
   // Smooth scrolling function
   const scrollToSection2 = () => {
-    section2Ref.current?.scrollIntoView({ behavior: 'smooth' });
+    section2Ref.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   // Checking dashboard routes
-  const dashboardRoutes = ['/student-dashboard', '/corporate-dashboard', '/college-dashboard'];
-  const isDashboard = dashboardRoutes.some((route) => location.pathname.startsWith(route));
+  const dashboardRoutes = [
+    "/student-dashboard",
+    "/corporate-dashboard",
+    "/college-dashboard",
+  ];
+  const isDashboard = dashboardRoutes.some((route) =>
+    location.pathname.startsWith(route)
+  );
 
-
-  const excludeHeaderRoutes = ['/register','/internships','/taketest']; // Add other routes if needed
+  const excludeHeaderRoutes = ["/register", "/internships", "/taketest"]; // Add other routes if needed
   const shouldShowHeader = !excludeHeaderRoutes.includes(location.pathname);
-
 
   // Check for popup on first load
   useEffect(() => {
-    if (localStorage.getItem('popupShown')) {
+    if (localStorage.getItem("popupShown")) {
       setShowPopup(false);
     } else {
-      localStorage.setItem('popupShown', 'true');
+      localStorage.setItem("popupShown", "true");
     }
   }, []);
 
   return (
     <ThemeProvider theme={theme}>
-
       {/* Curtain Raiser Popup
       {showPopup && (
         <div
@@ -159,7 +166,7 @@ function App() {
               element={
                 <>
                   {/* Background Image */}
-                  <div
+                  {/* <div
                     className="responsive-image-container"
                     style={{
                       width: '94%',
@@ -173,7 +180,24 @@ function App() {
                       overflow: 'hidden',
                       boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
                     }}
-                  ></div>
+                  ></div> */}
+
+                  <div className="responsive-container">
+                    <div className="responsive-box">
+                      <img
+                        src={`${process.env.PUBLIC_URL}/Assets/vision.png`}
+                        alt="Vision 2025"
+                        className="responsive-image"
+                      />
+                    </div>
+                    <div className="responsive-box">
+                      <img
+                        src={`${process.env.PUBLIC_URL}/Assets/mission.png`}
+                        alt="Mission 2025"
+                        className="responsive-image"
+                      />
+                    </div>
+                  </div>
 
                   {/* Sections */}
                   <section id="section1">
@@ -184,39 +208,58 @@ function App() {
                   <section id="internships">
                     <div
                       style={{
-                        backgroundColor: 'white',
-                        padding: '40px 20px',
-                        textAlign: 'center',
-                        borderRadius: '20px',
-                        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-                        marginBottom: '20px',
-                        marginTop: '20px',
-                        width: '95%',
-                        marginLeft: 'auto',
-                        marginRight: 'auto',
+                        backgroundColor: "white",
+                        padding: "40px 20px",
+                        textAlign: "center",
+                        borderRadius: "20px",
+                        boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+                        marginBottom: "20px",
+                        marginTop: "20px",
+                        width: "95%",
+                        marginLeft: "auto",
+                        marginRight: "auto",
                       }}
                     >
-                      <h1 style={{ fontSize: '2.5rem', color: '#1976d2', marginBottom: '20px' }}>
+                      <h1
+                        style={{
+                          fontSize: "2.5rem",
+                          color: "#1976d2",
+                          marginBottom: "20px",
+                        }}
+                      >
                         Mega Internship Assessment
                       </h1>
-                      <p style={{ fontSize: '1.2rem', color: '#555', marginBottom: '30px' }}>
-                        Empowering students across Karnataka with career-transforming internship opportunities. Join the state-wide initiative designed to enhance skills and provide real-world experience.
+                      <p
+                        style={{
+                          fontSize: "1.2rem",
+                          color: "#555",
+                          marginBottom: "30px",
+                        }}
+                      >
+                        Empowering students across Karnataka with
+                        career-transforming internship opportunities. Join the
+                        state-wide initiative designed to enhance skills and
+                        provide real-world experience.
                       </p>
                       <button
-                        onClick={() => navigate('/internships')} // Redirects to /internships
+                        onClick={() => navigate("/internships")} // Redirects to /internships
                         style={{
-                          padding: '15px 30px',
-                          fontSize: '1.2rem',
-                          backgroundColor: '#1976d2',
-                          color: '#fff',
-                          border: 'none',
-                          borderRadius: '8px',
-                          cursor: 'pointer',
-                          fontWeight: 'bold',
-                          transition: 'all 0.3s ease-in-out',
+                          padding: "15px 30px",
+                          fontSize: "1.2rem",
+                          backgroundColor: "#1976d2",
+                          color: "#fff",
+                          border: "none",
+                          borderRadius: "8px",
+                          cursor: "pointer",
+                          fontWeight: "bold",
+                          transition: "all 0.3s ease-in-out",
                         }}
-                        onMouseOver={(e) => (e.currentTarget.style.backgroundColor = '#145a96')}
-                        onMouseOut={(e) => (e.currentTarget.style.backgroundColor = '#1976d2')}
+                        onMouseOver={(e) =>
+                          (e.currentTarget.style.backgroundColor = "#145a96")
+                        }
+                        onMouseOut={(e) =>
+                          (e.currentTarget.style.backgroundColor = "#1976d2")
+                        }
                       >
                         Know More
                       </button>
@@ -239,11 +282,41 @@ function App() {
                     <VerificationTabs />
                   </section>
 
-                  <section id="ImageCard">
-                    <div style={{ width: '100%', padding: '20px', boxSizing: 'border-box' }}>
+                  {/* <section id="ImageCard">
+                    <div
+                      style={{
+                        width: "100%",
+                        padding: "20px",
+                        boxSizing: "border-box",
+                      }}
+                    >
                       <ImageCard />
                     </div>
-                  </section>
+                  </section>  */}
+
+                  {/* <section id="partners-section">
+      <div className="responsive-container">
+        <ImageCard />
+       
+      </div>
+    </section> */}
+
+<div className="responsive-container">
+                    <div className="responsive-box">
+                      <img
+                        src={`${process.env.PUBLIC_URL}/Assets/acdemic_partner.png`}
+                        alt="Vision 2025"
+                        className="responsive-image"
+                      />
+                    </div>
+                    <div className="responsive-box">
+                      <img
+                        src={`${process.env.PUBLIC_URL}/Assets/corporate_partner.png`}
+                        alt="Mission 2025"
+                        className="responsive-image"
+                      />
+                    </div>
+                  </div>
 
                   <section id="section3">
                     <Section3 />
@@ -265,8 +338,6 @@ function App() {
 
             <Route path="/taketest" element={<TakeTest />} />
 
-
-
             {/* Authentication Routes */}
             <Route path="/signup" element={<Signup />} />
             <Route path="/signin" element={<Signin />} />
@@ -275,7 +346,7 @@ function App() {
             <Route
               path="/student-dashboard"
               element={
-                <ProtectedRoute allowedRoles={['student']}>
+                <ProtectedRoute allowedRoles={["student"]}>
                   <>
                     <Sidebar role="student" />
                     <StudentDashboard />
@@ -287,7 +358,7 @@ function App() {
             <Route
               path="/corporate-dashboard/*"
               element={
-                <ProtectedRoute allowedRoles={['corporate']}>
+                <ProtectedRoute allowedRoles={["corporate"]}>
                   <>
                     <Sidebar role="corporate" />
                     <CorporateDashboard />
@@ -299,7 +370,7 @@ function App() {
             <Route
               path="/college-dashboard/*"
               element={
-                <ProtectedRoute allowedRoles={['college']}>
+                <ProtectedRoute allowedRoles={["college"]}>
                   <>
                     <Sidebar role="college" />
                     <CollegeDashboard />

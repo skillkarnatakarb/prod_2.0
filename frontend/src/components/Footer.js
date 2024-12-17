@@ -37,7 +37,7 @@ function Footer() {
                 color: "#3f51b5",
               }}
             >
-              <h3 style={{ marginTop: 15}}>Connect Us</h3>
+              <h3 style={{ marginTop: 15}}>Connect With Us</h3>
             </Typography>
             <Box sx={{ marginTop: 3 }}>
               {/* Social Media Icons */}
