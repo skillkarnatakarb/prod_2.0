@@ -41,85 +41,52 @@ function Header() {
         }}
       >
           <Toolbar
-            sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}
-          >
+  sx={{
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  }}
+>
+  {/* Logo */}
+  <Box
+    component="img"
+    src={`${process.env.PUBLIC_URL}/Assets/sklogo.png`}
+    alt="Logo"
+    sx={{
+      height: { xs: 50, sm: 60, md: 60 },
+      width: 'auto',
+      objectFit: 'contain',
+    }}
+  />
 
+  {/* Desktop Menu */}
+  <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 2 }}>
+    {menuItems.map((item) => (
+      <Button
+        key={item.text}
+        component={HashLink}
+        to={item.link}
+        smooth
+        sx={{ color: '#192661', fontSize: '16px', fontWeight: 'bold', textTransform: 'none' }}
+      >
+        {item.text}
+      </Button>
+    ))}
+  </Box>
 
-          {/* Logo on the Left */}
-          <Box
-            component={HashLink}
-            to="/"
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              textDecoration: 'none',
-              cursor: 'pointer',
-              flex: { xs: '1 1 auto', md: '0 0 auto' },
-            }}
-          >
-            <Box
-              component="img"
-              src={`${process.env.PUBLIC_URL}/Assets/sklogo.png`}
-              alt="Logo"
-              sx={{
-                height: { xs: 50, sm: 60, md: 60 },
-                marginLeft: { xs: 2, md: -5 },
-                width: 'auto',
-                objectFit: 'contain',
-              }}
-            />
-          </Box>
+  {/* Mobile Menu Icon */}
+  <Box sx={{ marginLeft: 'auto', display: { xs: 'block', md: 'none' } }}>
+    <IconButton
+      color="inherit"
+      aria-label="menu"
+      onClick={handleDrawerToggle}
+      sx={{ color: '#000' }}
+    >
+      <MenuIcon />
+    </IconButton>
+  </Box>
+</Toolbar>
 
-          {/* Desktop Menu */}
-          <Box
-            sx={{
-              display: { xs: 'none', md: 'flex' },
-              gap: 2,
-              marginLeft: 'auto',
-              flex: '0 0 auto',
-            }}
-          >
-            {menuItems.map((item) => (
-              <Button
-                key={item.text}
-                component={HashLink}
-                to={item.link}
-                smooth
-                sx={{
-                  color: '#192661',
-                  fontSize: '16px',
-                  fontWeight: 'bold',
-                  textTransform: 'none',
-                }}
-                onClick={() => setDrawerOpen(false)}
-              >
-                {item.text}
-              </Button>
-            ))}
-          </Box>
-
-          {/* Menu Icon for Mobile - Positioned to the Right */}
-          <IconButton
-            edge="end"
-            color="inherit"
-            aria-label="menu"
-            onClick={handleDrawerToggle}
-            sx={{
-              display: { xs: 'block', md: 'none' },
-              color: '#000',
-              marginLeft: 'auto', /* This aligns the button to the far right */
-            }}
-          >
-            <MenuIcon />
-          </IconButton>
-
-
-
-        </Toolbar>
       </AppBar>
 
       {/* Mobile Drawer */}
