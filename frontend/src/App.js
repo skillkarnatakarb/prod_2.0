@@ -21,7 +21,7 @@ import VerificationTabs from "./components/VerificationTabs";
 import Section3 from "./components/Section3";
 import Section4 from "./components/Section4";
 import Footer from "./components/Footer";
-import ImageCard from "./components/ImageCard";
+
 import VideoComponent from "./components/VideoComponent";
 
 // Authentication and Dashboard Components
@@ -282,26 +282,9 @@ function App() {
                     <VerificationTabs />
                   </section>
 
-                  {/* <section id="ImageCard">
-                    <div
-                      style={{
-                        width: "100%",
-                        padding: "20px",
-                        boxSizing: "border-box",
-                      }}
-                    >
-                      <ImageCard />
-                    </div>
-                  </section>  */}
+                 
 
-                  {/* <section id="partners-section">
-      <div className="responsive-container">
-        <ImageCard />
-       
-      </div>
-    </section> */}
-
-<div className="responsive-container">
+                <div className="responsive-container">
                     <div className="responsive-box">
                       <img
                         src={`${process.env.PUBLIC_URL}/Assets/acdemic_partner.png`}
