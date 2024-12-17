@@ -8,5 +8,6 @@ router.get('/template', listController.downloadTemplate);
 router.post('/create', upload.single('csvFile'), listController.createList);
 router.get('/', listController.getLists);
 router.delete('/:id', listController.deleteList);
+router.get('/:listId/students', listController.getStudentsByList);
 
 module.exports = router;

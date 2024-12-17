@@ -23,12 +23,6 @@ function Header() {
   ];
 
 
-
-    
-
-
-
-
   return (
     <>
       <AppBar

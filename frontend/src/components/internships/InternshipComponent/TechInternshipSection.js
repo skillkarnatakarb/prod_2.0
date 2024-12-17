@@ -74,8 +74,8 @@ const TechCoursesSection = () => {
               borderRadius: '10px',
               padding: '15px',
               width: '300px',
-              backgroundColor: '#fff',
-              boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+              backgroundColor: 'rgba(250, 250, 250, 0.55)',
+              boxShadow: '0 4px 6px rgba(20, 19, 19, 0.58)',
               textAlign: 'left',
             }}
           >
@@ -84,8 +84,8 @@ const TechCoursesSection = () => {
               src={course.imgSrc}
               alt={course.title}
               style={{
-                width: '100%',
-                height: '150px',
+                width: '270px',
+                height: '250px',
                 borderRadius: '10px',
                 objectFit: 'cover',
                 marginBottom: '10px',
@@ -93,7 +93,7 @@ const TechCoursesSection = () => {
             />
 
             {/* Course Title */}
-            <h3 style={{ fontSize: '1.2rem', color: '#333', marginBottom: '15px' }}>{course.title}</h3>
+            <h3 style={{ fontSize: '1.5rem', color: '#333', marginBottom: '15px' }}>{course.title}</h3>
             {/* <p style={{ fontSize: '0.9rem', color: '#666', marginBottom: '10px' }}>{course.lessons}</p> */}
 
             {/* Rounded Features */}
