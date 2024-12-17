@@ -40,14 +40,15 @@ function Header() {
           padding: { xs: '0 10px', sm: '0 20px', md: '0 40px' },
         }}
       >
-        <Toolbar
-          sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            flexWrap: { xs: 'wrap', md: 'nowrap' },
-          }}
-        >
+          <Toolbar
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+          >
+
+
           {/* Logo on the Left */}
           <Box
             component={HashLink}
@@ -110,11 +111,14 @@ function Header() {
             sx={{
               display: { xs: 'block', md: 'none' },
               color: '#000',
-              marginLeft: 'auto', // This ensures the icon is on the right
+              marginLeft: 'auto', /* This aligns the button to the far right */
             }}
           >
             <MenuIcon />
           </IconButton>
+
+
+
         </Toolbar>
       </AppBar>
 
@@ -128,11 +132,13 @@ function Header() {
         }}
       >
         {/* Close Icon */}
-        <Box sx={{ display: 'flex', justifyContent: 'flex-end', padding: '8px' }}>
+        <Box sx={{ position: 'absolute', top: '15px', right: '15px' }}>
           <IconButton onClick={handleDrawerToggle} sx={{ color: '#000' }}>
             <CloseIcon />
           </IconButton>
         </Box>
+
+
 
         <Divider />
 
