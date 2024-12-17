@@ -77,6 +77,14 @@ app.listen(PORT, () => {
   console.log(`Visit http://localhost:${PORT} to access the API.`);
 });
 
+
+
+// Additional logs for specific features
+console.log('Ensure Google Login endpoint is configured at /api/auth/google-login');
+console.log('Make sure MONGO_URI is set correctly in your .env file');
+
+
 // Final Debug Logs
 console.log('Ensure Google Login endpoint works at /api/auth/google-login');
 console.log('Make sure MONGO_URI is set correctly in your .env file.');
+

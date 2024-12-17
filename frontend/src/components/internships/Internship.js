@@ -6,12 +6,35 @@ import NonTechInternshipSection from './InternshipComponent/NonTechInternshipSec
 
 const Internship = () => {
   return (
+    <div style={{ backgroundColor: ' rgba(255, 253, 252, 0.73)' }}>
     <div>
       <Banner />
-      <University />
-      <TechInternshipSection />
-      <NonTechInternshipSection />
-    </div>
+      </div >
+
+        <div>
+                      
+        
+        <University />
+         </div>
+      
+
+
+      <div> 
+        
+        <TechInternshipSection />
+         </div>
+      
+
+      
+      <div> 
+        
+        <NonTechInternshipSection />
+         </div>
+
+         </div>
+      
+     
+   
   );
 };
 

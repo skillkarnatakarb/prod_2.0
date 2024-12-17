@@ -171,3 +171,16 @@ export const getRegistrations = async () => {
     throw error;
   }
 };
+
+
+
+
+// Fetch students by List ID
+export const fetchStudentsByList = (listId) => {
+  return API.get(`/lists/${listId}/students`)
+    .then((res) => res.data)
+    .catch((error) => {
+      console.error('Error fetching students:', error.message);
+      throw error;
+    });
+};
