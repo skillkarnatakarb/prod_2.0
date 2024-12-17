@@ -105,7 +105,8 @@ function Header() {
             sx={{
               display: { xs: 'block', md: 'none' },
               color: '#000',
-              marginLeft: 'auto', /* This aligns the button to the far right */
+              marginRight: 'auto', // Moves the menu icon to the left
+    marginLeft: 0,       // Ensures no extra left spacing
             }}
           >
             <MenuIcon />
