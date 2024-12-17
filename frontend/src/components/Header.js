@@ -35,6 +35,86 @@ function Header() {
         }}
       >
           <Toolbar
+
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+          >
+
+
+          {/* Logo on the Left */}
+          <Box
+            component={HashLink}
+            to="/"
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              textDecoration: 'none',
+              cursor: 'pointer',
+              flex: { xs: '1 1 auto', md: '0 0 auto' },
+            }}
+          >
+            <Box
+              component="img"
+              src={`${process.env.PUBLIC_URL}/Assets/sklogo.png`}
+              alt="Logo"
+              sx={{
+                height: { xs: 50, sm: 60, md: 60 },
+                marginLeft: { xs: 2, md: -5 },
+                width: 'auto',
+                objectFit: 'contain',
+              }}
+            />
+          </Box>
+
+          {/* Desktop Menu */}
+          <Box
+            sx={{
+              display: { xs: 'none', md: 'flex' },
+              gap: 2,
+              marginLeft: 'auto',
+              flex: '0 0 auto',
+            }}
+          >
+            {menuItems.map((item) => (
+              <Button
+                key={item.text}
+                component={HashLink}
+                to={item.link}
+                smooth
+                sx={{
+                  color: '#192661',
+                  fontSize: '16px',
+                  fontWeight: 'bold',
+                  textTransform: 'none',
+                }}
+                onClick={() => setDrawerOpen(false)}
+              >
+                {item.text}
+              </Button>
+            ))}
+          </Box>
+
+          {/* Menu Icon for Mobile - Positioned to the Right */}
+          <IconButton
+            edge="end"
+            color="inherit"
+            aria-label="menu"
+            onClick={handleDrawerToggle}
+            sx={{
+              display: { xs: 'block', md: 'none' },
+              color: '#000',
+              marginRight: 'auto', // Moves the menu icon to the left
+    marginLeft: 0,       // Ensures no extra left spacing
+            }}
+          >
+            <MenuIcon />
+          </IconButton>
+
+
+
   sx={{
     display: 'flex',
     alignItems: 'center',
@@ -80,6 +160,7 @@ function Header() {
     </IconButton>
   </Box>
 </Toolbar>
+
 
       </AppBar>
 
