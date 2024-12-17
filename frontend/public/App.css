@@ -1,14 +1,19 @@
 /* Global styles */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+
 body {
   margin: 0;
   padding: 0;
   font-family: "Avenir Next", sans-serif;
-  min-width: 1280px;
-  background: url('/assets/website.png') no-repeat center center fixed; /* Background image */
-  background-size: cover; /* Ensure the image covers the whole background */
-  overflow-x: hidden; /* Prevent horizontal scrolling */
-  height: 100vh;
-  overflow-y: auto; /* Enable vertical scrolling */
+  background: url('/assets/website.png') no-repeat center center fixed;
+  background-size: cover;
+  overflow-x: hidden; /* Prevent horizontal scroll */
 }
 
 /* HTML and body reset */
@@ -21,7 +26,7 @@ html, body {
 
 
 body {
-  background-image: url('/beta/Assets/40bg.png');
+  background-image: url('/Assets/70bg.png');
 /* Correct path to your image */
   background-size: cover; /* Makes the background cover the entire screen */
   background-repeat: no-repeat; /* Ensures no repetition of the image */
@@ -73,8 +78,9 @@ body {
 /* Responsive styles for phone view */
 @media (max-width: 600px) {
   body {
-    background-size: auto; /* Adjust background for better performance on mobile */
+    background-size: cover; 
     padding: 0 20px; /* Add padding for content spacing */
+    background-attachment: scroll; /* Avoid fixed background for better performance */
   }
 
   .App-header {
@@ -114,13 +120,15 @@ body {
   }
 }
 form {
-  width: 400px;
+  width: 90%; /* Responsive width */
+  max-width: 400px; /* Restrict it to 400px on larger screens */
   margin: 50px auto;
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 8px;
   background: #fff;
 }
+
 
 input, select, button {
   width: 100%;
