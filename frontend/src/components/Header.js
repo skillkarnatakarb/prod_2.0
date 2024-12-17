@@ -35,6 +35,7 @@ function Header() {
         }}
       >
           <Toolbar
+
             sx={{
               display: 'flex',
               justifyContent: 'space-between',
@@ -114,7 +115,53 @@ function Header() {
 
 
 
-        </Toolbar>
+  sx={{
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  }}
+>
+  {/* Logo */}
+  <Box
+    component="img"
+    src={`${process.env.PUBLIC_URL}/Assets/sklogo.png`}
+    alt="Logo"
+    sx={{
+      height: { xs: 50, sm: 60, md: 60 },
+      width: 'auto',
+      objectFit: 'contain',
+    }}
+  />
+
+  {/* Desktop Menu */}
+  <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 2 }}>
+    {menuItems.map((item) => (
+      <Button
+        key={item.text}
+        component={HashLink}
+        to={item.link}
+        smooth
+        sx={{ color: '#192661', fontSize: '16px', fontWeight: 'bold', textTransform: 'none' }}
+      >
+        {item.text}
+      </Button>
+    ))}
+  </Box>
+
+  {/* Mobile Menu Icon */}
+  <Box sx={{ marginLeft: 'auto', display: { xs: 'block', md: 'none' } }}>
+    <IconButton
+      color="inherit"
+      aria-label="menu"
+      onClick={handleDrawerToggle}
+      sx={{ color: '#000' }}
+    >
+      <MenuIcon />
+    </IconButton>
+  </Box>
+</Toolbar>
+
+
       </AppBar>
 
       {/* Mobile Drawer */}
