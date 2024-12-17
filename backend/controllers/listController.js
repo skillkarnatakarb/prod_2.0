@@ -141,3 +141,24 @@ exports.deleteList = async (req, res) => {
     res.status(500).json({ message: 'Error deleting list', error: error.message });
   }
 };
+
+
+
+
+
+// Get Students by List ID
+exports.getStudentsByList = async (req, res) => {
+  try {
+    const { listId } = req.params;
+
+    if (!listId) {
+      return res.status(400).json({ message: 'List ID is required' });
+    }
+
+    const students = await Student.find({ listId });
+    res.status(200).json(students);
+  } catch (error) {
+    console.error('Error fetching students:', error.message);
+    res.status(500).json({ message: 'Error fetching students', error: error.message });
+  }
+};
