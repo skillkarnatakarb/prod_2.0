@@ -47,6 +47,9 @@ const Section2 = () => {
                 borderRadius: 5,
                 boxShadow: 6,
                 textAlign: 'center',
+                backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                backdropFilter: 'blur(10px)',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
               }}
             >
               <img

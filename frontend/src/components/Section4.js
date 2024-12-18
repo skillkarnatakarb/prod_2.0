@@ -39,11 +39,11 @@ function Section4() {
       <Typography variant="h4" gutterBottom>
         FAQ's
       </Typography>
-      <Box sx={{ maxHeight: 300, overflowY: 'auto', p: 1, mt: 2, borderRadius: '12px', boxShadow: 3 }}> {/* Adjusted height for smaller scrollbar and added modern styling */}
+      <Box sx={{ maxHeight: 300, overflowY: 'auto', p: 1, mt: 2, borderRadius: '12px', boxShadow: 3, backgroundColor: 'rgba(255, 255, 255, 0.05)', backdropFilter: 'blur(10px)', border: '1px solid rgba(255, 255, 255, 0.2)', }}> {/* Adjusted height for smaller scrollbar and added modern styling */}
         <Grid container spacing={2} justifyContent="center">
           {faqData.map((faq, index) => (
             <Grid item xs={12} sm={6} md={4} key={index}>
-              <Paper elevation={4} sx={{ padding: 3, borderRadius: '16px', backgroundColor: '#f9f9f9', transition: 'transform 0.3s', '&:hover': { transform: 'scale(1.05)' } }}> {/* Modern design with hover effect */}
+              <Paper elevation={4} sx={{ padding: 3, borderRadius: '16px', backgroundColor: '#f9f9f9', transition: 'transform 0.3s', '&:hover': { transform: 'scale(1.05)' }, backgroundColor: 'rgba(255, 255, 255, 0.05)', backdropFilter: 'blur(10px)',  }}> {/* Modern design with hover effect */}
                 <Typography variant="h6" gutterBottom>
                   {faq.question}
                 </Typography>
