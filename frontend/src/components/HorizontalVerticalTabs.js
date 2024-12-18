@@ -206,7 +206,7 @@ export default function HorizontalVerticalTabs() {
   ];
 
   return (
-    <Box sx={{ width: '90%', maxWidth: 1200, margin: 'auto', mt: 3, boxShadow: 3, borderRadius: 2, p: 2, bgcolor: '#f9f9f9' }}>
+    <Box sx={{ width: '90%', maxWidth: 1200, margin: 'auto', mt: 3, boxShadow: 3, borderRadius: 2, p: 2, bgcolor: '#f9f9f9', backgroundColor: 'rgba(255, 255, 255, 0.05)', backdropFilter: 'blur(10px)', border: '1px solid rgba(255, 255, 255, 0.2)', }}>
       <Typography variant="h5" align="center" sx={{ mb: 1, fontWeight: 'bold' }}>
         Matching Talent Pool with Suitable Job Roles
       </Typography>

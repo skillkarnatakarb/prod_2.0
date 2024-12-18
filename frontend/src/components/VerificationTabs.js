@@ -8,6 +8,7 @@ const CenteredContainer = styled(Container)({
   alignItems: 'center',
   minHeight: '100vh',
   padding: '20px',
+  
 });
 
 const VerificationContainer = styled(Box)({
@@ -27,6 +28,9 @@ const VerificationContainer = styled(Box)({
     boxShadow: '0 10px 20px rgba(0, 0, 0, 0.2)',
   },
   overflow: 'hidden',
+  backgroundColor: 'rgba(255, 255, 255, 0.05)',
+  backdropFilter: 'blur(10px)',
+  border: '1px solid rgba(255, 255, 255, 0.2)',
 });
 
 const KarnatakaMapBackground = styled(Box)({
@@ -41,14 +45,18 @@ const KarnatakaMapBackground = styled(Box)({
   opacity: '0.2',
   zIndex: '1',
   backgroundImage: 'url(https://images.unsplash.com/photo-1657856855186-7cf4909a4f78?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)', // External image URL
+  
 });
 
 const ContentContainer = styled(Box)({
   position: 'relative',
   zIndex: '2',
   padding: '20px',
-  backgroundColor: 'rgba(255, 221, 68, 0.9)', // Semi-transparent background to enhance readability
+  //backgroundColor: 'rgba(255, 221, 68, 0.9)', // Semi-transparent background to enhance readability
   borderRadius: '10px',
+  backgroundColor: 'rgba(255, 255, 255, 0.05)',
+  backdropFilter: 'blur(10px)',
+  border: '1px solid rgba(255, 255, 255, 0.2)',
 });
 
 const StyledAppBar = styled(AppBar)({
