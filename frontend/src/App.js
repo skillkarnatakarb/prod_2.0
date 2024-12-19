@@ -182,7 +182,7 @@ function App() {
                     }}
                   ></div> */}
 
-                  <div className="responsive-container">
+                  <div className="responsive-container" style={{ marginTop: '70px' }}>
                     <div className="responsive-box">
                       <img
                         src={`${process.env.PUBLIC_URL}/Assets/vision.png`}
@@ -218,6 +218,9 @@ function App() {
                         width: "95%",
                         marginLeft: "auto",
                         marginRight: "auto",
+                        backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                        backdropFilter: 'blur(10px)',
+                        border: '1px solid rgba(255, 255, 255, 0.2)',
                       }}
                     >
                       <h1

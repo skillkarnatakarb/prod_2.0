@@ -19,7 +19,7 @@ const socialLinks = {
 
 function Footer() {
   return (
-    <Box sx={{ backgroundColor: "#f5f5f5", padding: 3, marginTop: 2 }}>
+    <Box sx={{ backgroundColor: "#f5f5f5", padding: 3, marginTop: 2, backgroundColor: 'rgba(255, 255, 255, 0.05)', backdropFilter: 'blur(10px)', border: '1px solid rgba(255, 255, 255, 0.2)' }}>
       <Grid container spacing={3}>
         {/* Left Section */}
         <Grid item xs={12} sm={4}>

@@ -22,14 +22,18 @@ function Header() {
   return (
     <>
       <AppBar
-        position="static"
-        sx={{
-          width: '100%',
-          backgroundColor: 'white',
-          boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
-          padding: { xs: '0 10px', sm: '0 20px', md: '0 40px' },
-        }}
-      >
+          position="fixed"
+          sx={{
+            width: '100%',
+            backgroundColor: 'rgba(255, 255, 255, 0.7)', // Adjust transparency
+            backdropFilter: 'blur(10px)', // Glass effect
+            boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
+            padding: { xs: '0 10px', sm: '0 20px', md: '0 40px' },
+            zIndex: 1100,
+          }}
+        >
+
+
         <Toolbar
   sx={{
     display: 'flex',

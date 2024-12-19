@@ -8,24 +8,29 @@ function Section1({ scrollToSection2 }) {
       sx={{
         p: 2,
         textAlign: 'center',
-        backgroundColor: 'white',
+        backgroundColor: 'rgba(255, 255, 255, 0.05)', // Very light transparent background
+        backdropFilter: 'blur(10px)', // Glass-like blur effect
         borderRadius: 2,
         ml: 4,
         mr: 4,
         mt: 2,
         mb: 3,
-        boxShadow: 3,
+        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', // Light shadow for depth
+        border: '1px solid rgba(255, 255, 255, 0.2)', // Subtle border for separation
       }}
     >
+
+  
+
       <Typography
         variant="h5"
         marginTop={-1}
         gutterBottom
-        sx={{ color: 'black', fontWeight: 'bold', fontSize: '1.2rem' }}
+        sx={{ color: 'black', fontWeight: 'bold', fontSize: '1.2rem',}}
       >
         UPCOMING INTERVIEWS
       </Typography>
-      <Box sx={{ maxHeight: '150px', overflowY: 'auto', padding: 1 }}>
+      <Box sx={{ maxHeight: '150px', overflowY: 'auto', padding: 1, }}>
         <Grid container spacing={2}>
           {companies.map((company) => (
             <Grid item xs={12} sm={6} md={4} lg={2.4} key={company.id}>

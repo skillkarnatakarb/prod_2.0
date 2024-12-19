@@ -14,26 +14,31 @@ import Jobmodal from './Jobmodal';
 function TechCard({ name, logo, onClick }) {
   return (
     <Card
-        sx={{
-          width: { xs: '100%', sm: 100 },
-          height: { xs: 'auto', sm: 130 },
-          backgroundColor: '#f5f5f5',
-          boxShadow: 2,
-          borderRadius: 2,
-          border: '0.5px solid #d0cece',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          textAlign: 'center',
-          transition: 'transform 0.2s, box-shadow 0.2s',
-          '&:hover': { transform: 'scale(1.05)', boxShadow: 10 },
-          m: 0.5,
-        }}
-        onClick={onClick}
-      >
-
-      <CardMedia component="img" height="50" image={logo} alt={name} sx={{ objectFit: 'contain', p: 0.5 }} />
+      sx={{
+        width: '120px', // Reduced width
+        height: '160px', // Reduced height
+        backgroundColor: '#f5f5f5',
+        boxShadow: 2,
+        borderRadius: 2,
+        border: '0.5px solid #d0cece',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        textAlign: 'center',
+        transition: 'transform 0.2s, box-shadow 0.2s',
+        '&:hover': { transform: 'scale(1.05)', boxShadow: 10 },
+        m: 0.5,
+      }}
+      onClick={onClick}
+    >
+      <CardMedia
+        component="img"
+        height="60"
+        image={logo}
+        alt={name}
+        sx={{ objectFit: 'contain', p: 0.5 }}
+      />
       <CardContent>
         <Typography variant="caption" align="center" fontWeight="bold">
           {name}
@@ -42,6 +47,8 @@ function TechCard({ name, logo, onClick }) {
     </Card>
   );
 }
+
+
 
 TechCard.propTypes = {
   name: PropTypes.string.isRequired,
@@ -206,32 +213,58 @@ export default function HorizontalVerticalTabs() {
   ];
 
   return (
-    <Box sx={{ width: '90%', maxWidth: 1200, margin: 'auto', mt: 3, boxShadow: 3, borderRadius: 2, p: 2, bgcolor: '#f9f9f9' }}>
+    <Box sx={{ width: '90%', maxWidth: 1200, margin: 'auto', mt: 3, boxShadow: 3, borderRadius: 2, p: 2, bgcolor: '#f9f9f9', backgroundColor: 'rgba(255, 255, 255, 0.05)', backdropFilter: 'blur(10px)', border: '1px solid rgba(255, 255, 255, 0.2)', }}>
       <Typography variant="h5" align="center" sx={{ mb: 1, fontWeight: 'bold' }}>
         Matching Talent Pool with Suitable Job Roles
       </Typography>
 
-      <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2, flexWrap: 'wrap' }}>
-        <Box sx={{ display: 'flex', borderRadius: 25, overflow: 'hidden', boxShadow: 2 }}>
-          {["Technical", "Non-Technical", "Digital", "Manufacturing", "Gig Economy", "Healthcare & Hospitality"].map((label, index) => (
-            <Button
-              key={index}
-              variant={horizontalValue === index ? 'contained' : 'outlined'}
-              onClick={() => setHorizontalValue(index)}
-              sx={{
-                px: { xs: 1, sm: 1.5 },
-                py: { xs: 0.5, sm: 1 },
-                fontSize: { xs: '10px', sm: '12px' },
-                fontWeight: 'bold',
-                bgcolor: horizontalValue === index ? '#f3ec18' : 'white',
-                color: horizontalValue === index ? 'black' : 'grey',
-              }}
-            >
-              {label}
-            </Button>
-          ))}
-        </Box>
-      </Box>
+      <Box
+  sx={{
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: { xs: 'column', md: 'row' }, // Vertical for small screens, horizontal for large screens
+    mb: 2,
+    flexWrap: { xs: 'nowrap', md: 'wrap' }, // No wrapping for vertical, wrap if needed for horizontal
+    width: '100%',
+    maxWidth: '1200px', // Limit width for better design on large screens
+  }}
+>
+  {[
+    "Technical",
+    "Non-Technical",
+    "Digital",
+    "Manufacturing",
+    "Gig Economy",
+    "Healthcare & Hospitality",
+  ].map((label, index) => (
+    <Button
+      key={index}
+      variant={horizontalValue === index ? 'contained' : 'outlined'}
+      onClick={() => setHorizontalValue(index)}
+      sx={{
+        px: { xs: 2, sm: 3 },
+        py: { xs: 1, sm: 1.5 },
+        fontSize: { xs: '12px', sm: '14px' },
+        fontWeight: 'bold',
+        borderRadius: { xs: 0, md: 20 }, // No radius for stacked vertical, rounded for horizontal
+        bgcolor: horizontalValue === index ? '#f3ec18' : 'white',
+        color: horizontalValue === index ? 'black' : 'grey',
+        border: '1px solid #d0d0d0',
+        width: { xs: '100%', md: 'auto' }, // Full width for vertical, auto for horizontal
+        textAlign: 'center',
+        boxShadow: horizontalValue === index ? 3 : 1, // Subtle shadow for selected
+        transition: 'all 0.3s ease-in-out',
+        '&:hover': {
+          transform: 'scale(1.05)',
+        },
+      }}
+    >
+      {label}
+    </Button>
+  ))}
+</Box>
+
 
       <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, mt: 1, width: '100%', justifyContent: 'center' }}>
 
@@ -243,7 +276,7 @@ export default function HorizontalVerticalTabs() {
         sx={{
           borderRight: 1,
           borderColor: 'divider',
-          height: '350px', // Adjust height as needed
+          height: '180px', // Adjust height as needed
           overflowY: 'auto', // Enables vertical scrolling
           minWidth: 120,
         }}
@@ -258,13 +291,17 @@ export default function HorizontalVerticalTabs() {
           {verticalTabContent[horizontalValue]?.map((content, index) => (
             <TabPanel value={verticalValue} index={index} key={index}>
               
-              <Grid container spacing={1}>
+              <Grid container spacing={2} sx={{ justifyContent: 'center' }}>
                 {(companyData[content] || []).map((company) => (
-                  <Grid item xs={6} sm={4} md={2} lg={2} key={company.id}>
+                  <Grid item xs={6} sm={6} md={4} lg={2} key={company.id}> {/* Adjust breakpoints */}
                     <TechCard name={company.name} logo={company.logo} onClick={() => handleOpen(company.id)} />
                   </Grid>
                 ))}
               </Grid>
+
+
+
+
 
             </TabPanel>
           ))}

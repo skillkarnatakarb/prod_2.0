@@ -43,6 +43,9 @@ function VideoComponent() {
                 transition: 'transform 0.3s',
                 '&:hover': { transform: 'scale(1.05)' },
                 padding: 0, // Removed padding to eliminate extra space
+                backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                backdropFilter: 'blur(10px)',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
               }}
             >
               <video
