@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "../styles/Form.css";
+import { API_BASE_URL } from "../config"; // Import API_BASE_URL
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -63,7 +64,11 @@ const Signup = () => {
       return;
     }
     try {
-      await axios.post("http://localhost:5000/api/auth/register", formData);
+      // await axios.post("http://localhost:5000/api/auth/register", formData);
+      await axios.post(
+        `${API_BASE_URL}/auth/register`, // Corrected to use API_BASE_URL
+        formData
+      );
       setSuccess("Signup successful! Redirecting to sign in...");
       setTimeout(() => navigate("/signin"), 2000);
     } catch (err) {

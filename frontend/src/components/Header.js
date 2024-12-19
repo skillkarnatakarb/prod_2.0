@@ -14,105 +14,73 @@ function Header() {
   const menuItems = [
     { text: 'Jobs', link: '#HorizontalVerticalTabssection' },
     { text: 'Interviews', link: '#section1' },
+    { text: 'Internships', link: '/internships' },
     { text: 'Certificate', link: '#VerificationTabs' },
     { text: 'SignUp/Login', link: '#section2' },
-    // { text: 'Login', link: '#section2' }
   ];
-
-
-
-    
-
-
-
 
   return (
     <>
       <AppBar
-        position="static"
-        sx={{
-          width: '100%',
-          backgroundColor: 'white',
-          boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
-          padding: { xs: '0 10px', sm: '0 20px', md: '0 40px' },
-        }}
-      >
-        <Toolbar
+          position="fixed"
           sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            flexWrap: { xs: 'wrap', md: 'nowrap' },
+            width: '100%',
+            backgroundColor: 'rgba(255, 255, 255, 0.7)', // Adjust transparency
+            backdropFilter: 'blur(10px)', // Glass effect
+            boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
+            padding: { xs: '0 10px', sm: '0 20px', md: '0 40px' },
+            zIndex: 1100,
           }}
         >
-          {/* Logo on the Left */}
-          <Box
-            component={HashLink}
-            to="/"
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              textDecoration: 'none',
-              cursor: 'pointer',
-              flex: { xs: '1 1 auto', md: '0 0 auto' },
-            }}
-          >
-            <Box
-              component="img"
-              src={`${process.env.PUBLIC_URL}/Assets/sklogo.png`}
-              alt="Logo"
-              sx={{
-                height: { xs: 50, sm: 60, md: 60 },
-                marginLeft: { xs: 2, md: -5 },
-                width: 'auto',
-                objectFit: 'contain',
-              }}
-            />
-          </Box>
 
-          {/* Desktop Menu */}
-          <Box
-            sx={{
-              display: { xs: 'none', md: 'flex' },
-              gap: 2,
-              marginLeft: 'auto',
-              flex: '0 0 auto',
-            }}
-          >
-            {menuItems.map((item) => (
-              <Button
-                key={item.text}
-                component={HashLink}
-                to={item.link}
-                smooth
-                sx={{
-                  color: '#192661',
-                  fontSize: '16px',
-                  fontWeight: 'bold',
-                  textTransform: 'none',
-                }}
-                onClick={() => setDrawerOpen(false)}
-              >
-                {item.text}
-              </Button>
-            ))}
-          </Box>
 
-          {/* Menu Icon for Mobile - Positioned to the Right */}
-          <IconButton
-            edge="end"
-            color="inherit"
-            aria-label="menu"
-            onClick={handleDrawerToggle}
-            sx={{
-              display: { xs: 'block', md: 'none' },
-              color: '#000',
-              marginLeft: 'auto', // This ensures the icon is on the right
-            }}
-          >
-            <MenuIcon />
-          </IconButton>
-        </Toolbar>
+        <Toolbar
+  sx={{
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  }}
+>
+  {/* Logo */}
+  <Box
+    component="img"
+    src={`${process.env.PUBLIC_URL}/Assets/sklogo.png`}
+    alt="Logo"
+    sx={{
+      height: { xs: 50, sm: 60, md: 60 },
+      width: 'auto',
+      objectFit: 'contain',
+    }}
+  />
+
+  {/* Desktop Menu */}
+  <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 2 }}>
+    {menuItems.map((item) => (
+      <Button
+        key={item.text}
+        component={HashLink}
+        to={item.link}
+        smooth
+        sx={{ color: '#192661', fontSize: '16px', fontWeight: 'bold', textTransform: 'none' }}
+      >
+        {item.text}
+      </Button>
+    ))}
+  </Box>
+
+  {/* Mobile Menu Icon */}
+  <Box sx={{ marginLeft: 'auto', display: { xs: 'block', md: 'none' } }}>
+    <IconButton
+      color="inherit"
+      aria-label="menu"
+      onClick={handleDrawerToggle}
+      sx={{ color: '#000' }}
+    >
+      <MenuIcon />
+    </IconButton>
+  </Box>
+</Toolbar>
+
       </AppBar>
 
       {/* Mobile Drawer */}
@@ -125,7 +93,7 @@ function Header() {
         }}
       >
         {/* Close Icon */}
-        <Box sx={{ display: 'flex', justifyContent: 'flex-end', padding: '8px' }}>
+        <Box sx={{ position: 'absolute', top: '15px', right: '15px' }}>
           <IconButton onClick={handleDrawerToggle} sx={{ color: '#000' }}>
             <CloseIcon />
           </IconButton>

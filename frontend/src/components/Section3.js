@@ -40,6 +40,9 @@ function Section3() {
                 borderRadius: '16px', // Rounded corners for the card
                 transition: 'transform 0.3s',
                 '&:hover': { transform: 'scale(1.05)' }, // Hover effect for modern feel
+                backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                backdropFilter: 'blur(10px)',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
               }}
             >
               <img

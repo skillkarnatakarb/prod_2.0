@@ -19,7 +19,7 @@ const socialLinks = {
 
 function Footer() {
   return (
-    <Box sx={{ backgroundColor: "#f5f5f5", padding: 3, marginTop: 2 }}>
+    <Box sx={{ backgroundColor: "#f5f5f5", padding: 3, marginTop: 2, backgroundColor: 'rgba(255, 255, 255, 0.05)', backdropFilter: 'blur(10px)', border: '1px solid rgba(255, 255, 255, 0.2)' }}>
       <Grid container spacing={3}>
         {/* Left Section */}
         <Grid item xs={12} sm={4}>
@@ -37,7 +37,7 @@ function Footer() {
                 color: "#3f51b5",
               }}
             >
-              <h3 style={{ marginTop: 15}}>Connect Us</h3>
+              <h3 style={{ marginTop: 15}}>Connect With Us</h3>
             </Typography>
             <Box sx={{ marginTop: 3 }}>
               {/* Social Media Icons */}

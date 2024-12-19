@@ -106,10 +106,11 @@ export const createList = (formData) =>
   );
 
 // Delete a student list by ID
-export const deleteList = (listId) =>
-  retryRequest(() =>
-    API.delete(`/lists/${listId}`).then((res) => validateResponse(res.data))
-  );
+export const deleteList = (id) => {
+  if (!id) throw new Error('List ID is required');
+  return API.delete(`/lists/${id}`);
+};
+
 
 // =========== PROJECT FUNCTIONALITY =========== //
 
@@ -144,3 +145,42 @@ export const updateUserProfile = async (userData) =>
 // Fetch activity logs
 export const fetchActivityLogs = async () =>
   retryRequest(() => API.get('/logs/activity').then((res) => validateResponse(res.data)));
+
+
+
+
+
+// Register a user
+export const registerUser = async (formData) => {
+  try {
+    const response = await API.post('/registrations/register', formData);
+    return response.data;
+  } catch (error) {
+    console.error('Error Registering User:', error.message);
+    throw error;
+  }
+};
+
+// Fetch all registrations
+export const getRegistrations = async () => {
+  try {
+    const response = await API.get('/registrations/registrations');
+    return response.data;
+  } catch (error) {
+    console.error('Error Fetching Registrations:', error.message);
+    throw error;
+  }
+};
+
+
+
+
+// Fetch students by List ID
+export const fetchStudentsByList = (listId) => {
+  return API.get(`/lists/${listId}/students`)
+    .then((res) => res.data)
+    .catch((error) => {
+      console.error('Error fetching students:', error.message);
+      throw error;
+    });
+};

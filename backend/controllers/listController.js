@@ -2,25 +2,17 @@ const fs = require('fs');
 const path = require('path');
 const List = require('../models/List');
 const Student = require('../models/Student');
-
+const csvParser = require('csv-parser');
 
 // Parse CSV file
 const parseCsv = (csvFilePath) => {
   return new Promise((resolve, reject) => {
     const students = [];
-    const csv = require('csv-parser');
-
     fs.createReadStream(csvFilePath)
-      .pipe(csv())
-      .on('data', (row) => {
-        students.push(row);
-      })
-      .on('end', () => {
-        resolve(students);
-      })
-      .on('error', (error) => {
-        reject(error);
-      });
+      .pipe(csvParser())
+      .on('data', (row) => students.push(row))
+      .on('end', () => resolve(students))
+      .on('error', (error) => reject(error));
   });
 };
 
@@ -45,46 +37,50 @@ exports.createList = async (req, res) => {
   try {
     const { name } = req.body;
 
-    // Validate name
+    // Validate list name
     if (!name || !name.trim()) {
       return res.status(400).json({ message: 'List name is required' });
     }
 
-    const file = req.file; // CSV file uploaded via middleware
+    // Check for duplicate list name
+    const existingList = await List.findOne({ name });
+    if (existingList) {
+      return res.status(400).json({ message: 'List name already exists' });
+    }
+
+    const file = req.file;
     if (!file) {
       return res.status(400).json({ message: 'CSV file is required' });
     }
 
     const csvFilePath = path.join(__dirname, '..', 'uploads', file.filename);
-
-    // Parse CSV file
     const students = await parseCsv(csvFilePath);
 
-    // Save the list in the database
+    // Save the new list
     const newList = new List({ name });
     await newList.save();
 
-    // Save each student from the CSV to the database
-    for (const student of students) {
-      const newStudent = new Student({
-        name: student.Name,
-        email: student.Email,
-        phoneNumber: student['Phone Number'],
-        collegeName: student['College Name'],
-        education: student.Education,
-        specialization: student.Specialization,
-        semester: student.Semester,
-        listId: newList._id, // Reference the new list's ID
-      });
-      await newStudent.save();
-    }
+    // Save students to the database
+    const studentRecords = students.map((student) => ({
+      name: student.Name || 'Unknown',
+      email: student.Email || 'N/A',
+      phoneNumber: student['Phone Number'] || 'N/A',
+      collegeName: student['College Name'] || 'N/A',
+      education: student.Education || 'N/A',
+      specialization: student.Specialization || 'N/A',
+      semester: student.Semester || '1',
+      listId: newList._id, // Reference to the new list's ID
+    }));
 
-    // Remove CSV file after processing
-    fs.unlinkSync(csvFilePath);
+    await Student.insertMany(studentRecords); // Bulk insert students
+    fs.unlinkSync(csvFilePath); // Remove CSV file after processing
 
-    res.status(201).json({ message: 'List created successfully', listId: newList._id });
+    res.status(201).json({ message: 'List and students added successfully', listId: newList._id });
   } catch (error) {
     console.error('Error creating list:', error.message);
+    if (error.code === 11000) {
+      return res.status(400).json({ message: 'Duplicate list name not allowed' });
+    }
     res.status(500).json({ message: 'Error creating list', error: error.message });
   }
 };
@@ -118,12 +114,22 @@ exports.getLists = async (req, res) => {
   }
 };
 
-// Delete List
+// Delete List and Associated Students
 exports.deleteList = async (req, res) => {
   try {
     const { id } = req.params;
 
-    // Delete all students associated with the list
+    if (!id) {
+      return res.status(400).json({ message: 'List ID is required' });
+    }
+
+    // Check if list exists
+    const listExists = await List.findById(id);
+    if (!listExists) {
+      return res.status(404).json({ message: 'List not found' });
+    }
+
+    // Delete associated students
     await Student.deleteMany({ listId: id });
 
     // Delete the list itself
@@ -133,5 +139,26 @@ exports.deleteList = async (req, res) => {
   } catch (error) {
     console.error('Error deleting list:', error.message);
     res.status(500).json({ message: 'Error deleting list', error: error.message });
+  }
+};
+
+
+
+
+
+// Get Students by List ID
+exports.getStudentsByList = async (req, res) => {
+  try {
+    const { listId } = req.params;
+
+    if (!listId) {
+      return res.status(400).json({ message: 'List ID is required' });
+    }
+
+    const students = await Student.find({ listId });
+    res.status(200).json(students);
+  } catch (error) {
+    console.error('Error fetching students:', error.message);
+    res.status(500).json({ message: 'Error fetching students', error: error.message });
   }
 };
