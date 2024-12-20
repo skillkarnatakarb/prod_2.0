@@ -9,18 +9,26 @@
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     <link
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
-    />
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"    />
+
+        <link rel="stylesheet" href="/App.css">
 
     
+ <!-- Preload critical CSS -->
+ <link rel="preload" href="/static/css/main.css" as="style" />
 
-    <link rel="stylesheet" href="/App.css">
+ <!-- Preload JavaScript -->
+ <link rel="preload" href="/static/js/main.js" as="script" />
+
+ <!-- Preload background image -->
+ <link rel="preload" href="/Assets/70bg.png'" as="image" />
+
+ <!-- Prefetch resources for future navigation -->
+ <link rel="prefetch" href="/static/js/chunk.js" as="script" />
+
+
 
     
-
-
-
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
     <meta
       name="description"
