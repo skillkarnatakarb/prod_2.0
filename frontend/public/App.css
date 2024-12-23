@@ -17,7 +17,7 @@ html, body {
 
 body {
   font-family: "Avenir Next", sans-serif;
-  /* background-image: url('/Assets/70bg.png'); */
+  background-image: url('/Assets/70bg.png');
 /* Correct path to your image */
   background-size: cover; /* Makes the background cover the entire screen */
   background-repeat: no-repeat; /* Ensures no repetition of the image */
