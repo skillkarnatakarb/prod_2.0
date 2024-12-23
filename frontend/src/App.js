@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, Suspense } from "react";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import {
   Routes,
@@ -160,6 +160,8 @@ function App() {
           {/* {!isDashboard && <Header />} */}
           {!isDashboard && shouldShowHeader && <Header />}
 
+
+      <Suspense fallback={<div>Page is Loading... if not please refresh the page</div>}>
           <Routes>
             <Route
               path="/"
@@ -372,6 +374,7 @@ function App() {
             {/* Fallback Route */}
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
+        </Suspense>
         </>
       )}
     </ThemeProvider>
