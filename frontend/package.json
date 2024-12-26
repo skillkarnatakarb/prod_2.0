@@ -59,8 +59,6 @@
     "@babel/plugin-proposal-optional-chaining": "^7.21.0"
   },
 
-  "overrides": {
-    "react-router-dom": "^7.1.0"
-  }
+  "overrides": {}
 
 }
