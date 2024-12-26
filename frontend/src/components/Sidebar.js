@@ -9,11 +9,10 @@ import {
   IconButton,
   Avatar,
 } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import SettingsIcon from "@mui/icons-material/Settings";
-import ContactMailIcon from "@mui/icons-material/ContactMail"; // Import ContactMailIcon
+import ContactMailIcon from "@mui/icons-material/ContactMail";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useNavigate } from "react-router-dom";
 
@@ -55,7 +54,6 @@ const Sidebar = ({ role }) => {
 
   const drawerContent = (
     <Box sx={{ width: drawerWidth, p: 2 }}>
-      {/* Profile Section */}
       <Box display="flex" alignItems="center" mb={2}>
         <Avatar alt={role} sx={{ mr: 2 }}>
           {role.charAt(0).toUpperCase()}
@@ -65,7 +63,6 @@ const Sidebar = ({ role }) => {
         </Box>
       </Box>
 
-      {/* Menu Items */}
       <List>
         {menuItems[role]?.map((item, index) => (
           <ListItem
@@ -98,7 +95,6 @@ const Sidebar = ({ role }) => {
 
   return (
     <Box sx={{ display: "flex" }}>
-      {/* Sidebar Header */}
       <Box
         sx={{
           width: "100%",
@@ -109,12 +105,10 @@ const Sidebar = ({ role }) => {
           padding: "0 16px",
         }}
       >
-        {/* Dashboard Title */}
         <Box sx={{ fontWeight: "bold", fontSize: "18px", color: "#fff" }}>
           {role.toUpperCase()} DASHBOARD
         </Box>
 
-        {/* Menu Icon */}
         <Box sx={{ marginLeft: "auto" }}>
           <IconButton
             color="inherit"
@@ -124,12 +118,11 @@ const Sidebar = ({ role }) => {
               color: "#fff",
             }}
           >
-            <MenuIcon />
+            <AccountCircleIcon />
           </IconButton>
         </Box>
       </Box>
 
-      {/* Drawer */}
       <Drawer
         anchor="right"
         variant="temporary"
