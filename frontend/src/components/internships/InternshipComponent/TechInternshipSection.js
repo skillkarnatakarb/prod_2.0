@@ -145,7 +145,7 @@ const TechCoursesSection = () => {
               alt={course.title}
               style={{
                 width: "290px",
-                height: "280px",
+                height: "290px",
                 borderRadius: "10px",
                 objectFit: "cover",
                 marginBottom: "10px",

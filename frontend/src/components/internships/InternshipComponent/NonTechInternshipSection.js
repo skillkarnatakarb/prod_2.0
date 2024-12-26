@@ -114,7 +114,7 @@ const NonTechCoursesSection = () => {
               alt={course.title}
               style={{
                 width: "100%",
-                height: "280px",
+                height: "290px",
                 borderRadius: "10px",
                 objectFit: "cover",
                 marginBottom: "10px",

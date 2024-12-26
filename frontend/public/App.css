@@ -6,16 +6,6 @@
   padding: 0;
 }
 
-
-body {
-  margin: 0;
-  padding: 0;
-  font-family: "Avenir Next", sans-serif;
-  background: url('/assets/website.png') no-repeat center center fixed;
-  background-size: cover;
-  overflow-x: hidden; /* Prevent horizontal scroll */
-}
-
 /* HTML and body reset */
 html, body {
   margin: 0;
@@ -26,12 +16,15 @@ html, body {
 
 
 body {
+  font-family: "Avenir Next", sans-serif;
   background-image: url('/Assets/70bg.png');
 /* Correct path to your image */
   background-size: cover; /* Makes the background cover the entire screen */
   background-repeat: no-repeat; /* Ensures no repetition of the image */
   background-attachment: fixed; /* Keeps the image fixed when scrolling */
   background-position: center; /* Centers the background image */
+  background-size: cover;
+  overflow-x: hidden; /* Prevent horizontal scroll */
 }
 
 
