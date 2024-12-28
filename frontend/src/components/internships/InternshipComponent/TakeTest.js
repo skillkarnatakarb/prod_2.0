@@ -1,4 +1,5 @@
 import React from 'react';
+import Header from '../../Header';
 
 const CourseCards = () => {
   const undergraduateCourses = [
@@ -8,12 +9,8 @@ const CourseCards = () => {
     { id: 4, course: 'BCom', icon: '💼', link: 'https://example.com/test-bcom' },
   ];
 
-  const postgraduateCourses = [
-    { id: 5, course: 'MBA', icon: '🎓', link: 'https://example.com/test-mba' },
-    { id: 6, course: 'MCA', icon: '💻', link: 'https://example.com/test-mca' },
-    { id: 7, course: 'MCom', icon: '📊', link: 'https://example.com/test-mcom' },
-    
-  ];
+  
+
 
   const renderCards = (courses) =>
     courses.map((course) => (
@@ -56,7 +53,10 @@ const CourseCards = () => {
     ));
 
   return (
-    <div style={{ padding: '20px', textAlign: 'center' }}>
+    <div style={{ backgroundColor: 'rgba(255, 253, 252, 0.73)' }}>
+      {/* Add the Header component */}
+      <Header />
+    <div style={{ padding: '20px', textAlign: 'center',paddingTop:'70px' }}>
       <h2 style={{ fontSize: '2rem', color: '#1976d2', marginBottom: '70px' }}>
         Choose Your Course
       </h2>
@@ -77,23 +77,8 @@ const CourseCards = () => {
           {renderCards(undergraduateCourses)}
         </div>
       </div>
-
-      {/* Postgraduate Section */}
-      <div>
-        <h3 style={{ fontSize: '1.8rem', color: '#1976d2', marginBottom: '20px' }}>
-          Postgraduate Degrees
-        </h3>
-        <div
-          style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            gap: '20px',
-            justifyContent: 'center',
-          }}
-        >
-          {renderCards(postgraduateCourses)}
-        </div>
-      </div>
+</div>
+    
     </div>
   );
 };

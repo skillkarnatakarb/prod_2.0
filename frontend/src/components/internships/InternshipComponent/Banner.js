@@ -2,7 +2,7 @@ import React from 'react';
 
 const Banner = () => {
   return (
-    <div style={{ padding: '20px', backgroundColor: '#f9f9f9', textAlign: 'center' }}>
+    <div style={{ padding: '20px', backgroundColor: '#f9f9f9', textAlign: 'center',paddingTop:'70px' }}>
       <h1 style={{ fontSize: '2.5rem', color: '#1976d2', marginBottom: '10px' }}>
         Mega Internship Assessment
       </h1>

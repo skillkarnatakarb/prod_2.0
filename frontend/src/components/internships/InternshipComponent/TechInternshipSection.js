@@ -132,7 +132,7 @@ const TechCoursesSection = () => {
             style={{
               borderRadius: "10px",
               padding: "15px",
-              width: "320px",
+              width: "300px",
               backgroundColor: "rgba(255, 255, 255, 0.05)",
               backdropFilter: "blur(10px)",
               border: "1px solid rgba(255, 255, 255, 0.2)",
@@ -144,7 +144,7 @@ const TechCoursesSection = () => {
               src={course.imgSrc}
               alt={course.title}
               style={{
-                width: "290px",
+                width: "270px",
                 height: "290px",
                 borderRadius: "10px",
                 objectFit: "cover",
