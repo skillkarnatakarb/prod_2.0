@@ -56,7 +56,8 @@ const CourseCards = () => {
     <div style={{ backgroundColor: 'rgba(255, 253, 252, 0.73)' }}>
       {/* Add the Header component */}
       <Header />
-    <div style={{ padding: '20px', textAlign: 'center',paddingTop:'70px' }}>
+      <div>
+    <div style={{ padding: '20px', textAlign: 'center',paddingTop:'70px' ,height:'100%'}}>
       <h2 style={{ fontSize: '2rem', color: '#1976d2', marginBottom: '70px' }}>
         Choose Your Course
       </h2>
@@ -77,6 +78,7 @@ const CourseCards = () => {
           {renderCards(undergraduateCourses)}
         </div>
       </div>
+</div>
 </div>
     
     </div>
