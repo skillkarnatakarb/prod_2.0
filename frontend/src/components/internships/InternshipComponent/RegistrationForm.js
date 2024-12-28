@@ -1,23 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { registerUser } from '../../../api/api';
+import TextField from '@mui/material/TextField';
+import MenuItem from '@mui/material/MenuItem';
 
 const RegistrationForm = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    name: '',
-    college: '',
-    degree: '',
-    branch: '',
-    role: '',
-    phoneNumber: '',
-    email: '',
-    address: '',
+    Name: '',
+    College: '',
+    Degree: '',
+    Branch: '',
+    PhoneNumber: '',
+    Email: '',
+    Address: '',
+    Role: '',
+    DOB: '',
+    USN: '',
   });
 
   const [errors, setErrors] = useState({});
-  const [errorMessage, setErrorMessage] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const [showPopup, setShowPopup] = useState({ type: '', message: '' });
 
@@ -25,17 +27,18 @@ const RegistrationForm = () => {
     const newErrors = {};
     const phoneRegex = /^[0-9]{10}$/;
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const usnRegex = /^[A-Za-z0-9]+$/;
 
-    if (!formData.name) newErrors.name = 'Name is required';
-    if (!formData.college) newErrors.college = 'College is required';
-    if (!formData.degree) newErrors.degree = 'Degree is required';
-    if (!formData.branch) newErrors.branch = 'Branch is required';
-    if (!formData.role) newErrors.role = 'Role is required';
-    if (!phoneRegex.test(formData.phoneNumber))
-      newErrors.phoneNumber = 'Invalid phone number';
-    if (!emailRegex.test(formData.email))
-      newErrors.email = 'Invalid email address';
-    if (!formData.address) newErrors.address = 'Address is required';
+    if (!formData.Name) newErrors.Name = 'Name is required';
+    if (!formData.College) newErrors.College = 'College is required';
+    if (!formData.Degree) newErrors.Degree = 'Degree is required';
+    if (!formData.Branch) newErrors.Branch = 'Branch is required';
+    if (!formData.Role) newErrors.Role = 'Role is required';
+    if (!formData.DOB) newErrors.DOB = 'Date of Birth is required';
+    if (!formData.USN || !usnRegex.test(formData.USN)) newErrors.USN = 'Invalid USN';
+    if (!phoneRegex.test(formData.PhoneNumber)) newErrors.PhoneNumber = 'Invalid phone number';
+    if (!emailRegex.test(formData.Email)) newErrors.Email = 'Invalid email address';
+    if (!formData.Address) newErrors.Address = 'Address is required';
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -56,14 +59,10 @@ const RegistrationForm = () => {
     if (validateForm()) {
       setLoading(true);
       try {
-        const response = await registerUser(formData);
-        setSuccessMessage(response.message);
+        await registerUser(formData);
         showTemporaryPopup('success', 'Registration Successful! All the very best for your test.');
-        setTimeout(() => {
-          navigate('/taketest');
-        }, 5000);
+        setTimeout(() => navigate('/taketest'), 5000);
       } catch (error) {
-        setErrorMessage(error.response?.data?.message || 'Failed to register');
         showTemporaryPopup('error', error.response?.data?.message || 'Failed to register');
       } finally {
         setLoading(false);
@@ -71,12 +70,57 @@ const RegistrationForm = () => {
     }
   };
 
-  // Helper function to show a popup for 5 seconds
   const showTemporaryPopup = (type, message) => {
     setShowPopup({ type, message });
-    setTimeout(() => {
-      setShowPopup({ type: '', message: '' });
-    }, 5000);
+    setTimeout(() => setShowPopup({ type: '', message: '' }), 5000);
+  };
+
+  const containerStyle = {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    minHeight: '100vh',
+    background: 'linear-gradient(135deg, #f5f7fa, #c3cfe2)',
+  };
+
+  const formStyle = {
+    width: '100%',
+    maxWidth: '500px',
+    backgroundColor: '#fff',
+    padding: '30px',
+    borderRadius: '10px',
+    boxShadow: '0 8px 15px rgba(0, 0, 0, 0.1)',
+  };
+
+  const headerStyle = {
+    textAlign: 'center',
+    color: '#1976d2',
+    marginBottom: '20px',
+    fontSize: '1.8rem',
+    fontWeight: 'bold',
+  };
+
+  const submitButtonStyle = (loading) => ({
+    padding: '10px 20px',
+    backgroundColor: loading ? '#ccc' : '#1976d2',
+    color: '#fff',
+    border: 'none',
+    borderRadius: '5px',
+    fontWeight: 'bold',
+    cursor: loading ? 'not-allowed' : 'pointer',
+  });
+
+  const popupStyle = {
+    position: 'fixed',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    backgroundColor: '#fff',
+    padding: '20px',
+    borderRadius: '10px',
+    boxShadow: '0 8px 15px rgba(0, 0, 0, 0.2)',
+    textAlign: 'center',
+    zIndex: 1000,
   };
 
   return (
@@ -84,109 +128,60 @@ const RegistrationForm = () => {
       <div style={formStyle}>
         <h2 style={headerStyle}>Register for Test</h2>
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-          {['name', 'college', 'degree', 'branch', 'phoneNumber', 'email', 'address'].map((field) => (
-            <div key={field}>
-              <label style={{ display: 'block', marginBottom: '5px' }}>{field}:</label>
-              <input
-                type={field === 'email' ? 'email' : 'text'}
-                name={field}
-                placeholder={`Enter ${field}`}
-                value={formData[field]}
-                onChange={handleChange}
-                style={inputStyle}
-              />
-              {errors[field] && <span style={errorStyle}>{errors[field]}</span>}
-            </div>
+          {['Name', 'College', 'Degree', 'Branch', 'PhoneNumber', 'Email', 'Address', 'USN'].map((field) => (
+            <TextField
+              key={field}
+              label={field}
+              name={field}
+              value={formData[field]}
+              onChange={handleChange}
+              error={!!errors[field]}
+              helperText={errors[field]}
+              fullWidth
+            />
           ))}
 
-          <div>
-            <label style={{ display: 'block', marginBottom: '5px' }}>Role:</label>
-            <select name="role" value={formData.role} onChange={handleChange} style={inputStyle}>
-              <option value="">Select Role</option>
-              <option value="Placement Officer">Placement Officer</option>
-              <option value="Faculty">Faculty</option>
-              <option value="HOD">HOD</option>
-              <option value="Student">Student</option>
-            </select>
-            {errors.role && <span style={errorStyle}>{errors.role}</span>}
-          </div>
+          <TextField
+            label="Date of Birth"
+            type="date"
+            name="DOB"
+            value={formData.DOB}
+            onChange={handleChange}
+            error={!!errors.DOB}
+            helperText={errors.DOB}
+            InputLabelProps={{ shrink: true }}
+            fullWidth
+          />
 
-          <button type="submit" style={submitButtonStyle(loading)}>
-            {loading ? 'Submitting...' : 'Submit'}
-          </button>
+          <TextField
+            select
+            label="Role"
+            name="Role"
+            value={formData.Role}
+            onChange={handleChange}
+            error={!!errors.Role}
+            helperText={errors.Role}
+            fullWidth
+          >
+            {['Placement Officer', 'Faculty', 'HOD', 'Student'].map((role) => (
+              <MenuItem key={role} value={role}>{role}</MenuItem>
+            ))}
+          </TextField>
+
+          <button type="submit" style={submitButtonStyle(loading)}>{loading ? 'Submitting...' : 'Submit'}</button>
         </form>
       </div>
 
-      {/* Popup */}
       {showPopup.type && (
-        <div style={popupStyle} className="fadeIn">
+        <div style={popupStyle}>
           <h2 style={{ color: showPopup.type === 'success' ? '#1976d2' : '#d32f2f' }}>
-            {showPopup.type === 'success' ? 'Success' : showPopup.type === 'notice' ? 'Notice' : 'Error'}
+            {showPopup.type === 'success' ? 'Success' : 'Error'}
           </h2>
           <p>{showPopup.message}</p>
         </div>
       )}
     </div>
   );
-};
-
-// Styles
-const containerStyle = {
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  minHeight: '100vh',
-  background: 'linear-gradient(135deg, #f5f7fa, #c3cfe2)',
-};
-
-const formStyle = {
-  width: '100%',
-  maxWidth: '500px',
-  backgroundColor: '#fff',
-  padding: '30px',
-  borderRadius: '10px',
-  boxShadow: '0 8px 15px rgba(0, 0, 0, 0.1)',
-};
-
-const headerStyle = {
-  textAlign: 'center',
-  color: '#1976d2',
-  marginBottom: '20px',
-  fontSize: '1.8rem',
-  fontWeight: 'bold',
-};
-
-const inputStyle = {
-  width: '100%',
-  padding: '10px',
-  border: '1px solid #ccc',
-  borderRadius: '5px',
-  fontSize: '1rem',
-};
-
-const errorStyle = { color: 'red', fontSize: '12px' };
-
-const submitButtonStyle = (loading) => ({
-  padding: '10px 20px',
-  backgroundColor: loading ? '#ccc' : '#1976d2',
-  color: '#fff',
-  border: 'none',
-  borderRadius: '5px',
-  fontWeight: 'bold',
-  cursor: loading ? 'not-allowed' : 'pointer',
-});
-
-const popupStyle = {
-  position: 'fixed',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  backgroundColor: '#fff',
-  padding: '20px',
-  borderRadius: '10px',
-  boxShadow: '0 8px 15px rgba(0, 0, 0, 0.2)',
-  textAlign: 'center',
-  zIndex: 1000,
 };
 
 export default RegistrationForm;
