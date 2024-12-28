@@ -14,17 +14,14 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.7.8",
     "boxicons": "^2.1.4",
+    "date-fns": "^2.28.0",
     "dayjs": "^1.11.13",
     "firebase": "^11.0.2",
     "jwt-decode": "^4.0.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-icons": "^5.4.0",
-<<<<<<< HEAD
-
-=======
-    "react-router-dom": "^7.1.0",
->>>>>>> 066a1d3021d8005a7e692491497f5315dbef55c1
+    "react-router-dom": "6.28.0",
     "react-router-hash-link": "^2.4.3",
     "react-scripts": "^5.0.1",
     "react-toastify": "^10.0.6",
@@ -62,8 +59,6 @@
     "@babel/plugin-proposal-optional-chaining": "^7.21.0"
   },
 
-  "overrides": {
-    "react-router-dom": "6.28.0"
-  }
+  "overrides": {}
 
 }

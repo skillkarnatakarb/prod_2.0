@@ -147,19 +147,28 @@ export const fetchActivityLogs = async () =>
   retryRequest(() => API.get('/logs/activity').then((res) => validateResponse(res.data)));
 
 
-
-
-
 // Register a user
 export const registerUser = async (formData) => {
   try {
-    const response = await API.post('/registrations/register', formData);
+    const response = await API.post('/registrations/register', {
+      name: formData.Name,                  // Match schema
+      college: formData.College,
+      degree: formData.Degree,
+      branch: formData.Branch,
+      phoneNumber: formData.PhoneNumber,
+      email: formData.Email,
+      address: formData.Address,
+      dob: formData.DOB,                    // Ensure ISO format
+      usn: formData.USN,
+      role: formData.Role,
+    });
     return response.data;
   } catch (error) {
     console.error('Error Registering User:', error.message);
     throw error;
   }
 };
+
 
 // Fetch all registrations
 export const getRegistrations = async () => {
@@ -171,9 +180,6 @@ export const getRegistrations = async () => {
     throw error;
   }
 };
-
-
-
 
 // Fetch students by List ID
 export const fetchStudentsByList = (listId) => {
