@@ -14,6 +14,7 @@ exports.fetchProjects = async (req, res) => {
 exports.uploadProject = async (req, res) => {
   const { title, description, githubLink } = req.body;
 
+  // Validate inputs (without GitHub link validation)
   if (!title || !description || !githubLink) {
     return res.status(400).json({ message: "All fields are required." });
   }

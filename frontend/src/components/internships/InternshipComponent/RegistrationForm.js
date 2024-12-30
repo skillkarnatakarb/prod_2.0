@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { registerUser } from '../../../api/api';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
+import CircularProgress from '@mui/material/CircularProgress';
+import Header from '../../Header';
 
 const RegistrationForm = () => {
   const navigate = useNavigate();
@@ -63,6 +65,7 @@ const RegistrationForm = () => {
         showTemporaryPopup('success', 'Registration Successful! All the very best for your test.');
         setTimeout(() => navigate('/taketest'), 5000);
       } catch (error) {
+        console.error('Registration error:', error);
         showTemporaryPopup('error', error.response?.data?.message || 'Failed to register');
       } finally {
         setLoading(false);
@@ -75,12 +78,24 @@ const RegistrationForm = () => {
     setTimeout(() => setShowPopup({ type: '', message: '' }), 5000);
   };
 
+  const fields = [
+    { name: 'Name', label: 'Name' },
+    { name: 'College', label: 'College' },
+    { name: 'Degree', label: 'Degree' },
+    { name: 'Branch', label: 'Branch' },
+    { name: 'PhoneNumber', label: 'Phone Number' },
+    { name: 'Email', label: 'Email' },
+    { name: 'Address', label: 'Address' },
+    { name: 'USN', label: 'USN' },
+  ];
+
   const containerStyle = {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     minHeight: '100vh',
     background: 'linear-gradient(135deg, #f5f7fa, #c3cfe2)',
+    paddingTop: '70px',
   };
 
   const formStyle = {
@@ -124,62 +139,69 @@ const RegistrationForm = () => {
   };
 
   return (
-    <div style={containerStyle}>
-      <div style={formStyle}>
-        <h2 style={headerStyle}>Register for Test</h2>
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-          {['Name', 'College', 'Degree', 'Branch', 'PhoneNumber', 'Email', 'Address', 'USN'].map((field) => (
+    <div style={{ backgroundColor: 'rgba(255, 253, 252, 0.73)' }}>
+      <Header />
+      <div style={containerStyle}>
+        <div style={formStyle}>
+          <h2 style={headerStyle}>Register for Test</h2>
+          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+            {fields.map(({ name, label }) => (
+              <TextField
+                key={name}
+                label={label}
+                name={name}
+                value={formData[name]}
+                onChange={handleChange}
+                error={!!errors[name]}
+                helperText={errors[name]}
+                fullWidth
+              />
+            ))}
+
             <TextField
-              key={field}
-              label={field}
-              name={field}
-              value={formData[field]}
+              label="Date of Birth"
+              type="date"
+              name="DOB"
+              value={formData.DOB}
               onChange={handleChange}
-              error={!!errors[field]}
-              helperText={errors[field]}
+              error={!!errors.DOB}
+              helperText={errors.DOB}
+              InputLabelProps={{ shrink: true }}
               fullWidth
             />
-          ))}
 
-          <TextField
-            label="Date of Birth"
-            type="date"
-            name="DOB"
-            value={formData.DOB}
-            onChange={handleChange}
-            error={!!errors.DOB}
-            helperText={errors.DOB}
-            InputLabelProps={{ shrink: true }}
-            fullWidth
-          />
+            <TextField
+              select
+              label="Role"
+              name="Role"
+              value={formData.Role}
+              onChange={handleChange}
+              error={!!errors.Role}
+              helperText={errors.Role}
+              fullWidth
+            >
+              {['Placement Officer', 'Faculty', 'HOD', 'Student'].map((role) => (
+                <MenuItem key={role} value={role}>
+                  {role}
+                </MenuItem>
+              ))}
+            </TextField>
 
-          <TextField
-            select
-            label="Role"
-            name="Role"
-            value={formData.Role}
-            onChange={handleChange}
-            error={!!errors.Role}
-            helperText={errors.Role}
-            fullWidth
-          >
-            {['Placement Officer', 'Faculty', 'HOD', 'Student'].map((role) => (
-              <MenuItem key={role} value={role}>{role}</MenuItem>
-            ))}
-          </TextField>
-
-          <button type="submit" style={submitButtonStyle(loading)}>{loading ? 'Submitting...' : 'Submit'}</button>
-        </form>
-      </div>
-
-      {showPopup.type && (
-        <div style={popupStyle}>
-          <h2 style={{ color: showPopup.type === 'success' ? '#1976d2' : '#d32f2f' }}>
-            {showPopup.type === 'success' ? 'Success' : 'Error'}
-          </h2>
-          <p>{showPopup.message}</p>
+            <button type="submit" style={submitButtonStyle(loading)}>
+              {loading ? <CircularProgress size={20} color="inherit" /> : 'Submit'}
+            </button>
+          </form>
         </div>
-      )}
+
+        {showPopup.type && (
+          <div style={popupStyle}>
+            <h2 style={{ color: showPopup.type === 'success' ? '#1976d2' : '#d32f2f' }}>
+              {showPopup.type === 'success' ? 'Success' : 'Error'}
+            </h2>
+            <p>{showPopup.message}</p>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

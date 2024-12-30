@@ -105,7 +105,7 @@ const Sidebar = ({ role }) => {
           padding: "0 16px",
         }}
       >
-        <Box sx={{ fontWeight: "bold", fontSize: "18px", color: "#fff" }}>
+        <Box sx={{ fontWeight: "bold", fontSize: "18px", color: "#fff"  }}>
           {role.toUpperCase()} DASHBOARD
         </Box>
 

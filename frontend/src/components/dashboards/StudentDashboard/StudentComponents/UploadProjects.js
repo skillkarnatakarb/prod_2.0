@@ -14,9 +14,6 @@ import {
 } from "@mui/material";
 import { fetchProjects, uploadProject, deleteProject } from "../../../../api/api";
 
-
-
-
 const UploadProjects = () => {
   const [projects, setProjects] = useState([]); // State to store projects
   const [formData, setFormData] = useState({
@@ -33,7 +30,14 @@ const UploadProjects = () => {
     const loadProjects = async () => {
       try {
         const data = await fetchProjects(); // Fetch projects from API
-        setProjects(data);
+        console.log("Projects fetched:", data);
+
+        // Sort projects by 'createdAt' in descending order (most recent first)
+        const sortedProjects = data.sort(
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+        );
+
+        setProjects(sortedProjects); // Update state with sorted projects
       } catch (error) {
         console.error("Error fetching projects:", error);
         setError("Failed to load projects. Please try again.");
@@ -53,13 +57,22 @@ const UploadProjects = () => {
     setError(null);
     setSuccess(false);
 
+    // Validate inputs
+    if (!formData.title || !formData.description || !formData.githubLink) {
+      setError("All fields are required.");
+      return;
+    }
+
     try {
       const newProject = await uploadProject(formData); // Call API
-      setProjects([newProject, ...projects]);
+      console.log("Project uploaded:", newProject);
+
+      // Add the new project at the top
+      setProjects([newProject, ...projects]); // Adds recent upload first
       setFormData({ title: "", description: "", githubLink: "" });
       setSuccess(true);
     } catch (error) {
-      console.error("Upload Error:", error.response || error.message); // Debug error
+      console.error("Upload Error:", error.response || error.message);
       setError("Failed to upload project. Please try again.");
     }
   };
@@ -67,6 +80,7 @@ const UploadProjects = () => {
   // Handle delete project
   const handleDelete = async (projectId) => {
     try {
+      console.log("Deleting project with ID:", projectId);
       await deleteProject(projectId); // Call API to delete
       setProjects(projects.filter((project) => project._id !== projectId)); // Remove from state
       setError(null);
@@ -76,14 +90,14 @@ const UploadProjects = () => {
     }
   };
 
-  // Handle Read More link click
-  const handleReadMore = (project) => {
-    setPopupData(project);
-  };
-
-  // Handle popup close
-  const handleClosePopup = () => {
-    setPopupData(null);
+  // Redirect to GitHub link
+  const handleViewProject = (githubLink) => {
+    // Open link in new tab if valid
+    if (githubLink.startsWith("http://") || githubLink.startsWith("https://")) {
+      window.open(githubLink, "_blank");
+    } else {
+      setError("Invalid GitHub link format.");
+    }
   };
 
   return (
@@ -141,8 +155,8 @@ const UploadProjects = () => {
         Uploaded Projects
       </Typography>
       <Grid container spacing={3}>
-        {projects.map((project, index) => (
-          <Grid item xs={12} sm={6} md={3} key={index}>
+        {projects.map((project) => (
+          <Grid item xs={12} sm={6} md={3} key={project._id}>
             <Card
               sx={{
                 boxShadow: 4,
@@ -179,24 +193,13 @@ const UploadProjects = () => {
                 >
                   {project.description}
                 </Typography>
-                <Typography
-                  variant="body2"
-                  color="primary"
-                  sx={{
-                    cursor: "pointer",
-                    textDecoration: "underline",
-                    marginTop: "10px",
-                  }}
-                  onClick={() => handleReadMore(project)}
-                >
-                  Read more
-                </Typography>
                 <Box display="flex" justifyContent="center" marginTop="10px">
                   <Button
                     variant="contained"
                     size="small"
                     color="primary"
-                    onClick={() => window.open(project.githubLink, "_blank")}
+                    type="button"
+                    onClick={() => handleViewProject(project.githubLink)}
                   >
                     View
                   </Button>
@@ -204,6 +207,7 @@ const UploadProjects = () => {
                     variant="outlined"
                     size="small"
                     color="error"
+                    type="button"
                     onClick={() => handleDelete(project._id)}
                     sx={{ marginLeft: "10px" }}
                   >
@@ -215,16 +219,6 @@ const UploadProjects = () => {
           </Grid>
         ))}
       </Grid>
-
-      {/* Popup for Read More */}
-      <Dialog open={Boolean(popupData)} onClose={handleClosePopup}>
-        <DialogTitle>{popupData?.title}</DialogTitle>
-        <DialogContent>
-          <Typography variant="body1" gutterBottom>
-            {popupData?.description}
-          </Typography>
-        </DialogContent>
-      </Dialog>
     </div>
   );
 };

@@ -35,7 +35,7 @@ API.interceptors.response.use(
   (error) => {
     console.error(
       `[Error Response] ${error.config?.method?.toUpperCase() || ''} - ${error.config?.url || ''}:`,
-      error.message
+      error.response?.data || error.message
     );
     return Promise.reject(error);
   }
@@ -67,6 +67,24 @@ const validateResponse = (response, expectedSchema) => {
   // Add schema validation logic here if needed (e.g., using `Joi` or a similar library)
   return response;
 };
+
+// =========== PROJECT FUNCTIONALITY =========== //
+
+// Fetch all projects
+export const fetchProjects = async () =>
+  retryRequest(() => API.get('/projects').then((res) => validateResponse(res.data)));
+
+// Upload a new project
+export const uploadProject = async (projectData) =>
+  retryRequest(() =>
+    API.post('/projects', projectData, {
+      headers: { 'Content-Type': 'application/json' },
+    }).then((res) => validateResponse(res.data))
+  );
+
+// Delete a project by ID
+export const deleteProject = async (projectId) =>
+  retryRequest(() => API.delete(`/projects/${projectId}`).then((res) => validateResponse(res.data)));
 
 // =========== STUDENT LIST FUNCTIONALITY =========== //
 
@@ -112,23 +130,44 @@ export const deleteList = (id) => {
 };
 
 
-// =========== PROJECT FUNCTIONALITY =========== //
 
-// Fetch all projects
-export const fetchProjects = async () =>
-  retryRequest(() => API.get('/projects').then((res) => validateResponse(res.data)));
+// =========== NEW FUNCTIONALITY =========== //
 
-// Upload a new project
-export const uploadProject = async (projectData) =>
-  retryRequest(() =>
-    API.post('/projects', projectData, {
-      headers: { 'Content-Type': 'multipart/form-data' },
-    }).then((res) => validateResponse(res.data))
-  );
+// Fetch project by ID
+export const fetchProjectById = async (projectId) => {
+  try {
+    const response = await API.get(`/projects/${projectId}`);
+    console.log(`Project with ID ${projectId} fetched successfully.`);
+    return response.data;
+  } catch (error) {
+    console.error(`Error fetching project with ID ${projectId}:`, error.message);
+    throw error;
+  }
+};
 
-// Delete a project by ID
-export const deleteProject = async (projectId) =>
-  retryRequest(() => API.delete(`/projects/${projectId}`).then((res) => validateResponse(res.data)));
+// Bulk delete projects
+export const bulkDeleteProjects = async (projectIds) => {
+  try {
+    const response = await API.post('/projects/bulk-delete', { projectIds });
+    console.log(`Projects with IDs ${projectIds.join(', ')} deleted successfully.`);
+    return response.data;
+  } catch (error) {
+    console.error('Error bulk-deleting projects:', error.message);
+    throw error;
+  }
+};
+
+// Search projects by keyword
+export const searchProjects = async (keyword) => {
+  try {
+    const response = await API.get(`/projects/search`, { params: { q: keyword } });
+    console.log(`Projects matching keyword "${keyword}" fetched successfully.`);
+    return response.data;
+  } catch (error) {
+    console.error(`Error searching projects with keyword "${keyword}":`, error.message);
+    throw error;
+  }
+};
 
 // =========== GENERIC UTILITY FUNCTIONS =========== //
 
