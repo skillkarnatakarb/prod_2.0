@@ -2,18 +2,18 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const universities = [
-  { name: 'Mysore University', date: '2024-01-01', takeTestLink: '/test1', registerLink: '/register', image: `${process.env.PUBLIC_URL}/Assets/Mysore.png` },
+  { name: 'Mysore University', date: '2025-01-01', takeTestLink: '/test1', registerLink: '/register', image: `${process.env.PUBLIC_URL}/Assets/Mysore.png` },
   
-  { name: 'KSOU Mysuru', date: '2024-01-05', takeTestLink: '/test5', registerLink: '/register', image: `${process.env.PUBLIC_URL}/Assets/KSOU.png` },
-  { name: 'VTU', date: '2024-01-06', takeTestLink: '/test6', registerLink: '/register', image: `${process.env.PUBLIC_URL}/Assets/VTU.png` },
-  { name: 'Mangalore University', date: '2024-01-03', takeTestLink: '/test3', registerLink: '/register', image: `${process.env.PUBLIC_URL}/Assets/Mangalore.png` },
-  { name: 'Kuvempu University', date: '2024-01-04', takeTestLink: '/test4', registerLink: '/register', image: `${process.env.PUBLIC_URL}/Assets/Kuvempu.png` },
+  { name: 'KSOU Mysuru', date: '2025-01-05', takeTestLink: '/test5', registerLink: '/register', image: `${process.env.PUBLIC_URL}/Assets/KSOU.png` },
+  { name: 'VTU', date: '2025-01-06', takeTestLink: '/test6', registerLink: '/register', image: `${process.env.PUBLIC_URL}/Assets/VTU.png` },
+  { name: 'Mangalore University', date: '2025-01-03', takeTestLink: '/test3', registerLink: '/register', image: `${process.env.PUBLIC_URL}/Assets/Mangalore.png` },
+  { name: 'Kuvempu University', date: '2025-01-04', takeTestLink: '/test4', registerLink: '/register', image: `${process.env.PUBLIC_URL}/Assets/Kuvempu.png` },
   
-  { name: 'Tumkur University', date: '2024-01-07', takeTestLink: '/test7', registerLink: '/register', image: `${process.env.PUBLIC_URL}/Assets/Tumkur.png` },
-  { name: 'Davangere University', date: '2024-01-08', takeTestLink: '/test8', registerLink: '/register', image: `${process.env.PUBLIC_URL}/Assets/Davengere.png` },
-  { name: 'Chamarajanagara University', date: '2024-01-09', takeTestLink: '/test9', registerLink: '/register', image: `${process.env.PUBLIC_URL}/Assets/CIMS.png` },
-  { name: 'Bagalkote University', date: '2024-01-10', takeTestLink: '/test10', registerLink: '/register', image: `${process.env.PUBLIC_URL}/Assets/Bagalkote.png` },
-  { name: 'Hassan University', date: '2024-01-12', takeTestLink: '/test12', registerLink: '/register', image: `${process.env.PUBLIC_URL}/Assets/Hassan.png` },
+  { name: 'Tumkur University', date: '2025-01-07', takeTestLink: '/test7', registerLink: '/register', image: `${process.env.PUBLIC_URL}/Assets/Tumkur.png` },
+  { name: 'Davangere University', date: '2025-01-08', takeTestLink: '/test8', registerLink: '/register', image: `${process.env.PUBLIC_URL}/Assets/Davengere.png` },
+  { name: 'Chamarajanagara University', date: '2025-01-09', takeTestLink: '/test9', registerLink: '/register', image: `${process.env.PUBLIC_URL}/Assets/CIMS.png` },
+  { name: 'Bagalkote University', date: '2025-01-10', takeTestLink: '/test10', registerLink: '/register', image: `${process.env.PUBLIC_URL}/Assets/Bagalkote.png` },
+  { name: 'Hassan University', date: '2025-01-12', takeTestLink: '/test12', registerLink: '/register', image: `${process.env.PUBLIC_URL}/Assets/Hassan.png` },
 ];
 
 const University = () => {

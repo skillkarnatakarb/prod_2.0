@@ -10,7 +10,7 @@ const registrationRoutes = require('./routes/registrationRoutes');
 const eventRoutes = require('./routes/eventRoutes');
 const projectRoutes = require('./routes/projectRoutes');
 const listRoutes = require('./routes/listRoutes');
-
+const stuprofileRoutes = require('./routes/stuProfileRoutes');
 const app = express();
 
 // Log environment variables for debugging (mask sensitive data)
@@ -42,7 +42,7 @@ app.use('/api/projects', projectRoutes);
 app.use('/api/lists', listRoutes);
 app.use('/api/events', eventRoutes);
 app.use('/api/registrations', registrationRoutes);
-
+app.use('/api/stuprofile', stuprofileRoutes);
 // Log initialized routes
 const routes = [
   '/api/auth',
@@ -88,4 +88,3 @@ console.log('Make sure MONGO_URI is set correctly in your .env file');
 // Final Debug Logs
 console.log('Ensure Google Login endpoint works at /api/auth/google-login');
 console.log('Make sure MONGO_URI is set correctly in your .env file.');
-

@@ -9,7 +9,6 @@ import { API_BASE_URL } from "../config";
 const Signin = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
   const [emailError, setEmailError] = useState("");
   const navigate = useNavigate();
 
@@ -32,14 +31,17 @@ const Signin = () => {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
 
-      const response = await axios.post("${API_BASE_URL}/auth/google-login", {
+      const response = await axios.post(`${API_BASE_URL}/auth/google-login`, {
         email: user.email,
         name: user.displayName || "Google User",
       });
 
+      // Save the email in localStorage
+      localStorage.setItem("email", user.email);
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("role", response.data.role);
 
+      // Redirect based on role
       switch (response.data.role) {
         case "student":
           navigate("/student-dashboard");
@@ -68,14 +70,14 @@ const Signin = () => {
       return;
     }
     try {
-      // const response = await axios.post("http://localhost:5000/api/auth/signin", formData);
-      const response = await axios.post(
-        `${API_BASE_URL}/auth/signin`,
-        formData
-      );
+      const response = await axios.post(`${API_BASE_URL}/auth/signin`, formData);
+
+      // Save the email in localStorage
+      localStorage.setItem("email", formData.email);
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("role", response.data.role);
 
+      // Redirect based on role
       switch (response.data.role) {
         case "student":
           navigate("/student-dashboard");
@@ -135,7 +137,6 @@ const Signin = () => {
           <p className="form-text">
             Don’t have an account? <a href="/signup">Sign up</a>
           </p>
-          {success && <p className="success-message">{success}</p>}
           {error && <p className="error-message">{error}</p>}
         </form>
       </div>
