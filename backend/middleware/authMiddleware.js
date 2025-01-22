@@ -7,15 +7,7 @@ const protect = async (req, res, next) => {
     try {
       token = req.headers.authorization.split(" ")[1];
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
-      // Debugging: Log the decoded token
-      console.log("Decoded Token:", decoded);
-
-      req.user = await User.findById(decoded.id).select("-password");
-
-      // Debugging: Log the user details fetched from DB
-      console.log("User from DB:", req.user);
-
+      req.user = { id: decoded.id }; // Attach userId to the request
       next();
     } catch (error) {
       res.status(401).json({ message: "Not authorized, token failed" });
@@ -24,8 +16,6 @@ const protect = async (req, res, next) => {
     res.status(401).json({ message: "Not authorized, no token" });
   }
 };
-
-
 
 const roleAccess = (...roles) => {
   return (req, res, next) => {

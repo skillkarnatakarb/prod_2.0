@@ -2,12 +2,15 @@ const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
 
-// Generate JWT Token
-const generateToken = (id, role) => {
-  return jwt.sign({ id, role }, process.env.JWT_SECRET, { expiresIn: "30d" });
+// Utility Function: Generate JWT Token
+const generateToken = (id, role, email) => {
+  return jwt.sign({ id, role, email }, process.env.JWT_SECRET, { expiresIn: "30d" });
 };
 
+
+// -----------------------------
 // Register (Signup) Controller
+// -----------------------------
 const registerUser = async (req, res) => {
   const { name, email, password, role, mobile } = req.body;
 
@@ -26,7 +29,10 @@ const registerUser = async (req, res) => {
       return res.status(400).json({ message: "User already exists" });
     }
 
+    // Create new user
     const user = await User.create({ name, email, password, role, mobile });
+
+    // Generate JWT Token
     const token = generateToken(user._id, user.role);
 
     res.status(201).json({
@@ -43,23 +49,16 @@ const registerUser = async (req, res) => {
   }
 };
 
+// -----------------------------
 // Login (Signin) Controller
+// -----------------------------
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
-  if (!email || !password) {
-    return res.status(400).json({ message: "Email and password are required." });
-  }
-
   try {
     const user = await User.findOne({ email });
-
     if (user && (await user.matchPassword(password))) {
-      const token = generateToken(user._id, user.role);
-
-      // Debugging: Log the response
-      // console.log("User Login Successful:", { email: user.email, role: user.role });
-
+      const token = generateToken(user._id, user.role, user.email); // Include email
       res.json({
         id: user._id,
         name: user.name,
@@ -81,7 +80,11 @@ const loginUser = async (req, res) => {
 
 
 
+
+
+// -----------------------------
 // Google Login Controller
+// -----------------------------
 const googleLogin = async (req, res) => {
   const { email, name, role } = req.body;
 
@@ -97,6 +100,7 @@ const googleLogin = async (req, res) => {
   try {
     let user = await User.findOne({ email });
 
+    // If user does not exist, create a new one
     if (!user) {
       user = await User.create({
         name: name || "Google User",
@@ -108,6 +112,7 @@ const googleLogin = async (req, res) => {
       });
     }
 
+    // Generate JWT Token
     const token = generateToken(user._id, user.role);
 
     res.json({
@@ -124,10 +129,9 @@ const googleLogin = async (req, res) => {
   }
 };
 
-
-
-
-// Forgot Password
+// -----------------------------
+// Forgot Password Controller
+// -----------------------------
 const forgotPassword = async (req, res) => {
   const { email } = req.body;
 
@@ -159,11 +163,14 @@ const forgotPassword = async (req, res) => {
 
     res.status(200).json({ message: "Password reset link sent!" });
   } catch (error) {
+    console.error("Error during forgot password:", error.message);
     res.status(500).json({ message: "An error occurred.", error: error.message });
   }
 };
 
-// Reset Password
+// -----------------------------
+// Reset Password Controller
+// -----------------------------
 const resetPassword = async (req, res) => {
   const { token, password } = req.body;
 
@@ -174,16 +181,20 @@ const resetPassword = async (req, res) => {
       return res.status(404).json({ message: "User not found!" });
     }
 
-    user.password = password; // Password will be hashed automatically in `pre` hook
+    // Update password (hashed in pre-save hook)
+    user.password = password;
     await user.save();
 
     res.status(200).json({ message: "Password reset successful!" });
   } catch (error) {
+    console.error("Error during reset password:", error.message);
     res.status(400).json({ message: "Invalid or expired token.", error: error.message });
   }
 };
 
-
+// -----------------------------
+// Exporting Controllers
+// -----------------------------
 module.exports = {
   registerUser,
   loginUser,

@@ -229,3 +229,28 @@ export const fetchStudentsByList = (listId) => {
       throw error;
     });
 };
+
+
+export const fetchStuProfile = async () => {
+  try {
+    const response = await API.get("/stuprofile/profile");
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching profile:", error.response?.data || error.message);
+    throw error;
+  }
+};
+
+
+export const updateStuProfile = async (token, profileData) => {
+  try {
+    const response = await API.put("/stuprofile/profile", profileData, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error updating profile:", error.message);
+    throw error;
+  }
+};
+
